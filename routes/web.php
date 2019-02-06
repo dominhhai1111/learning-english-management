@@ -16,3 +16,6 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', 'DashboardController@index');
+
+// app api
+Route::get('/api/all_topics', 'AppApiController@getAllTopics');
