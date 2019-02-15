@@ -16,6 +16,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', 'DashboardController@index');
+Route::get('/topics/list', 'TopicsController@listAction');
 
 // app api
 Route::get('/api/all_topics', 'AppApiController@getAllTopics');

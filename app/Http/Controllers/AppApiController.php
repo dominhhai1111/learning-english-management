@@ -20,4 +20,5 @@ class AppApiController extends Controller
         $topics = json_encode($this->topics->all()->toArray());
         echo $topics;
     }
+
 }
