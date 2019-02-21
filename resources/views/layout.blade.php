@@ -102,7 +102,6 @@
 <script src="../js/bootstrap.min.js"></script>
 <!-- CUSTOM SCRIPTS -->
 <script src="../js/custom.js"></script>
-
-
+@yield('bottom-script')
 </body>
 </html>
