@@ -17,4 +17,19 @@ class TopicsController extends Controller
 
         return view('topics.list', ['topics' => $topics]);
     }
+
+    public function addAction()
+    {
+        return view('topics.add');
+    }
+
+    public function editAction()
+    {
+        return view('topics.edit');
+    }
+
+    public function deleteAction()
+    {
+
+    }
 }
