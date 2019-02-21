@@ -1,3 +1,12 @@
+.btn-add {
+    width: 150px;
+    margin-left: 55px
+}
+
 .table-area {
     padding: 50px
+}
+
+.table-area .btn {
+    width: 65px;
 }
