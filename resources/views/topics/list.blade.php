@@ -10,7 +10,7 @@
 		<hr />
 		<div class="row">
 			<div class="col-lg-offset-10">
-				<button type="button" class="btn btn-primary btn-add">Add</button>
+				<button type="button" class="btn btn-primary btn-add" onclick="location.href='/topics/add'">Add</button>
 			</div>
 		</div>
 		<div class="row">
@@ -28,7 +28,7 @@
 						<tr>
 							<td>{{$topic['id']}}</td>
 							<td>{{$topic['name']}}</td>
-							<td><button type="button" class="btn btn-success">Edit</button><button type="button" class="btn btn-danger">Delete</button></td>
+							<td><button type="button" class="btn btn-success" onclick="location.href='/topics/edit?id={{$topic['id']}}'">Edit</button><button type="button" class="btn btn-danger">Delete</button></td>
 						</tr>
 					@endforeach
 					</tbody>
