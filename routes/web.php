@@ -17,10 +17,16 @@ Route::get('/', function () {
 
 Route::get('/', 'DashboardController@index');
 Route::get('/dashboard', 'DashboardController@index');
+
 Route::get('/topics/list', 'TopicsController@listAction');
 Route::any('/topics/add', 'TopicsController@addAction');
 Route::any('/topics/edit', 'TopicsController@editAction');
 Route::any('/topics/delete', 'TopicsController@deleteAction');
+
+Route::get('/tests/list', 'TestsController@listAction');
+Route::any('/tests/add', 'TestsController@addAction');
+Route::any('/tests/edit', 'TestsController@editAction');
+Route::any('/tests/delete', 'TestsController@deleteAction');
 
 // app api
 Route::get('/api/all_topics', 'AppApiController@getAllTopics');

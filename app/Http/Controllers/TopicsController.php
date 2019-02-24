@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Faker\Provider\DateTime;
 use Illuminate\Http\Request;
 use App\Topics;
-use Illuminate\Support\Facades\Storage;
 
 class TopicsController extends Controller
 {
