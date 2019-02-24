@@ -15,11 +15,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/', 'DashboardController@index');
 Route::get('/dashboard', 'DashboardController@index');
 Route::get('/topics/list', 'TopicsController@listAction');
-Route::get('/topics/add', 'TopicsController@addAction');
-Route::get('/topics/edit', 'TopicsController@editAction');
-Route::get('/topics/delete', 'TopicsController@deleteAction');
+Route::any('/topics/add', 'TopicsController@addAction');
+Route::any('/topics/edit', 'TopicsController@editAction');
+Route::any('/topics/delete', 'TopicsController@deleteAction');
 
 // app api
 Route::get('/api/all_topics', 'AppApiController@getAllTopics');
