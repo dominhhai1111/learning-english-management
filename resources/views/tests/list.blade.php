@@ -4,32 +4,35 @@
 	<div id="page-inner">
 		<div class="row">
 			<div class="col-lg-12">
-				<h2>Topics List</h2>
+				<h2>Tests List</h2>
 			</div>
 		</div>
 		<hr />
 		<div class="row">
 			<div class="btn-add-area">
-				<button type="button" class="btn btn-primary btn-add" onclick="location.href='/topics/add'">Add</button>
+				<button type="button" class="btn btn-primary btn-add" onclick="location.href='/tests/add'">Add</button>
 			</div>
 		</div>
 		<div class="row">
+
 			<div class="table-area">
-				<table id="topics-table" class="display">
+				<table id="tests-table" class="display">
 					<thead>
 					<tr>
 						<th>ID</th>
-						<th>Name</th>
+						<th>Test Name</th>
+						<th>Topic Name</th>
 						<th>Action</th>
 					</tr>
 					</thead>
 					<tbody>
-					@foreach ($topics as $topic)
+					@foreach ($tests as $test)
 						<tr>
-							<td>{{$topic['id']}}</td>
-							<td>{{$topic['name']}}</td>
-							<td><button type="button" class="btn btn-success" onclick="location.href='/topics/edit?id={{$topic['id']}}'">Edit</button>
-								<button type="button" id="btnDelete" class="btn btn-danger" onclick="confirmDeleteTopic({{$topic['id']}})">Delete</button>
+							<td>{{$test['id']}}</td>
+							<td>{{$test['name']}}</td>
+							<td>{{$test['topic_name']}}</td>
+							<td><button type="button" class="btn btn-success" onclick="location.href='/tests/edit?id={{$test['id']}}'">Edit</button>
+								<button type="button" id="btnDelete" class="btn btn-danger" onclick="confirmDeleteTest({{$test['id']}})">Delete</button>
 							</td>
 						</tr>
 					@endforeach
@@ -42,7 +45,7 @@
 
 @section('bottom-script')
 	<link href="../DataTables/datatables.css" rel="stylesheet" />
-	<link href="../css/Topics/list.css" rel="stylesheet" />
+	<link href="../css/Tests/list.css" rel="stylesheet" />
 	<script src="../DataTables/datatables.js"></script>
-	<script src="../js/topics/list.js"></script>
+	<script src="../js/Tests/list.js"></script>
 @endsection

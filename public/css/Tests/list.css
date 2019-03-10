@@ -1,0 +1,18 @@
+.btn-add {
+    width: 150px;
+    margin-left: 55px
+}
+
+.btn-add-area {
+    padding: 10px 50px;
+    text-align: right
+}
+
+.table-area {
+    padding: 50px
+}
+
+.table-area .btn {
+    width: 65px;
+    margin-right: 10px
+}

@@ -1,9 +1,9 @@
 $(document).ready( function () {
-    $('#topics-table').DataTable();
+    $('#tests-table').DataTable();
 });
 
-function confirmDeleteTopic(id) {
-    if(window.confirm('Do you want delete topic ?')) {
-        window.location.href = '/topics/delete?id=' + id;
+function confirmDeleteTest(id) {
+    if(window.confirm('Do you want delete test ?')) {
+        window.location.href = '/tests/delete?id=' + id;
     }
 }

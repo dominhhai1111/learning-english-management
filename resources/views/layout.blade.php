@@ -48,6 +48,12 @@
 				<li>
 					<a href="/topics/list"><i class="fa fa-table "></i>Topics  <span class="badge">Included</span></a>
 				</li>
+				<li>
+					<a href="/tests/list"><i class="fa fa-table "></i>Tests  <span class="badge">Included</span></a>
+				</li>
+				<li>
+					<a href="/questions/list"><i class="fa fa-table "></i>Questions  <span class="badge">Included</span></a>
+				</li>
 			</ul>
 		</div>
 

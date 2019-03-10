@@ -28,5 +28,10 @@ Route::any('/tests/add', 'TestsController@addAction');
 Route::any('/tests/edit', 'TestsController@editAction');
 Route::any('/tests/delete', 'TestsController@deleteAction');
 
+Route::get('/questions/list', 'QuestionsController@listAction');
+Route::any('/questions/add', 'QuestionsController@addAction');
+Route::any('/questions/edit', 'QuestionsController@editAction');
+Route::any('/questions/delete', 'QuestionsController@deleteAction');
+
 // app api
 Route::get('/api/all_topics', 'AppApiController@getAllTopics');

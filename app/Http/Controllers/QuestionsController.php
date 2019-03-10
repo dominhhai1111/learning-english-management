@@ -2,21 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Questions;
 use Illuminate\Http\Request;
 use App\Tests;
 use App\Topics;
 
-class TestsController extends Controller
+class QuestionsController extends Controller
 {
     public function __construct() {
         $this->tests = new Tests();
         $this->topics = new Topics();
+        $this->questions = new Questions();
     }
 
     public function listAction() {
-        $tests = $this->tests->getTestLists();
+        $questions = $this->questions->getQuestionList();
+        $topics = $this->topics->all()->toArray();
 
-        return view('tests.list', ['tests' => $tests]);
+        return view('questions.list', ['topics' => $topics, 'questions' => $questions]);
     }
 
     public function addAction(Request $request) {
@@ -41,7 +44,7 @@ class TestsController extends Controller
             }
         }
 
-        return view('tests.add', ['topics' => $topics]);
+        return view('questions.addPhotograph', ['topics' => $topics]);
     }
 
     public function editAction(Request $request) {
