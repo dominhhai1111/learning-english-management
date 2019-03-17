@@ -26,19 +26,11 @@ class QuestionsController extends Controller
         $topics = $this->topics->all()->toArray();
 
         if ($request->method() == "POST") {
-            $name = $request->input('name');
-            $topic = $request->input('topic');
-            $file = $request->file('image');
-            $folder = storage_path('images/tests');
-            $imageLink = $file->move($folder, $file->getClientOriginalName());
+            $questionType = $request->input('questionType');
+            if (!empty($questionType) & $questionType == 'photograph') {
+                $result = $this->createPhotographQuestion($request);
+            }
 
-            $result = $this->tests->insert([
-                'name' => $name,
-                'topic_id' => $topic,
-                'image_link' => $imageLink,
-                'created_at' => new \DateTime(),
-                'updated_at' => new \DateTime()
-            ]);
             if ($result) {
                 return redirect('tests/list');
             }
@@ -86,5 +78,57 @@ class QuestionsController extends Controller
         if ($result) {
             return redirect('tests/list');
         }
+    }
+
+    private function createPhotographQuestion($request)
+    {
+        if (empty($request)) return NULL;
+
+        $result = false;
+        $params = $request->all();
+        $questions = !empty($params['questions']) ? $params['questions'] : [];
+        if (empty($questions)) return NULL;
+
+        //create folder
+        $folder = storage_path('images/questions/photographs') . date('YmdHis');
+        mkdir($folder, 0777, true);
+
+        //set radio link
+        $radioFile = $params['radio_link'];
+        if (!empty($radioFile)) {
+            $radioLink = $radioFile->move($folder, $radioFile->getClientOriginalName());
+        }
+
+        //create parent question
+        $parentQuestionData = [
+            'topic_id'      => 1,
+            'parent_id'     => 0,
+            'level'         => !empty($request->input('level')) ? $request->input('level') : 1,
+            'description'   => !empty($request->input('description')) ? $request->input('description') : '',
+            'radio_link'    => $radioLink,
+            'created_at'    => new \DateTime(),
+            'updated_at'    => new \DateTime()
+        ];
+        $savedParentQuestionId = $this->questions->insertGetId($parentQuestionData);
+
+        //create children questions
+        foreach ($questions as $question) {
+            $file = $question['image'];
+            if (!empty($file)) {
+                $imageLink = $file->move($folder, $file->getClientOriginalName());
+            }
+
+            $questionData = [
+                'topic_id'      => 1,
+                'parent_id'     => $savedParentQuestionId,
+                'image_link'    => $imageLink,
+                'created_at'    => new \DateTime(),
+                'updated_at'    => new \DateTime()
+            ];
+
+            $savedQuestionId = $this->questions->insertGetId($questionData);
+        }
+
+        return $result;
     }
 }
