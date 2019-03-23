@@ -1,7 +1,7 @@
-@extends('questions.add')
+@extends('questions.edit')
 
 @section('title')
-    <h2>Add new photograph question</h2>
+    <h2>Edit photograph question</h2>
 @endsection
 
 
@@ -9,6 +9,7 @@
 <!-- form start -->
 <form role="form" method="post" action="" enctype="multipart/form-data">
     @csrf <!-- {{ csrf_field() }} -->
+    <img style="width: 300px; height: 200px" class="questionsTmp_questionNo_show" src="/storage\images/questions/photographs20190318150112\AlbumArtSmall.jpg" alt="your image">
     <input type="hidden" name="questionType" value="photograph">
     <div class="box-body">
         <div class="form-group">
@@ -17,7 +18,7 @@
         </div>
         <div class="form-group">
             <label for="name">Description</label>
-            <input type="text" name="description" class="form-control" placeholder="Enter description">
+            <input type="text" name="description" class="form-control" placeholder="Enter description" value="{{$question['description']}}">
         </div>
         <div class="form-group">
             <label for="name">Radio</label>
@@ -26,16 +27,29 @@
         <div class="form-group">
             <label for="name">Difficulty</label>
             <select name="level" class="form-control">
-                <option value="1">Easy</option>
-                <option value="2">Normal</option>
-                <option value="3">Hard</option>
+                <option value="1" <?php if($question['level'] == 1) echo "selected"?>>Easy</option>
+                <option value="2" <?php if($question['level'] == 2) echo "selected"?>>Normal</option>
+                <option value="3" <?php if($question['level'] == 3) echo "selected"?>>Hard</option>
             </select>
         </div>
         <div class="form-group">
             <p class="btn-primary btn btn-add">Add more question</p>
         </div>
         <div class="question-area">
-
+            @foreach($childrenQuestions as $question)
+                <div class="form-group">
+                    <label for="image_link">Image input</label>
+                    <input type="file" name="questionsTmp[questionNo][image]" class="questionsTmp_questionNo" onchange="readURL(this)">
+                    <img style="width: 300px; height: 200px" class="questionsTmp_questionNo_show" src="{{$question['image_link']}}" alt="your image" />
+                </div>
+                <div class="form-group">
+                    <label for="">Options</label>
+                    <input type="radio" name="questionsTmp[questionNo][option]" value="A" checked>A
+                    <input type="radio" name="questionsTmp[questionNo][option]" value="B">B
+                    <input type="radio" name="questionsTmp[questionNo][option]" value="C">C
+                    <input type="radio" name="questionsTmp[questionNo][option]" value="D">D
+                </div>
+            @endforeach
         </div>
         <div class="question-template-area">
             <div class="question-template" style="display: none">

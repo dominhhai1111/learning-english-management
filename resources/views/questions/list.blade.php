@@ -27,7 +27,7 @@
 					<thead>
 					<tr>
 						<th>ID</th>
-						<th>Questions</th>
+						<th>Descriptions</th>
 						<th>Topic</th>
 						<th>Level</th>
 						<th>Action</th>
@@ -37,7 +37,7 @@
 					@foreach ($questions as $question)
 						<tr>
 							<td>{{$question['id']}}</td>
-							<td>{{$question['question']}}</td>
+							<td>{{$question['description']}}</td>
 							<td>{{$question['topic_name']}}</td>
 							<td>{{$question['level']}}</td>
 							<td><button type="button" class="btn btn-success" onclick="location.href='/questions/edit?id={{$question['id']}}'">Edit</button>

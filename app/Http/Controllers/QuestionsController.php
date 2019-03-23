@@ -32,7 +32,7 @@ class QuestionsController extends Controller
             }
 
             if ($result) {
-                return redirect('tests/list');
+                return redirect('questions/list');
             }
         }
 
@@ -41,33 +41,21 @@ class QuestionsController extends Controller
 
     public function editAction(Request $request) {
         $id = $request->query('id');
-        $test = $this->tests->getTestById($id);
-        $topics = $this->topics->all()->toArray();
+        $question = $this->questions->where('id', '=', $id)->first()->toArray();
+        $topic = $this->topics->where(['id' => $question['topic_id']])->first()->toArray();
+        $childrenQuestions = $this->questions->where(['parent_id' => $id])->get()->toArray();
+        //dd(asset('/storage\images/questions/photographs20190318150112\AlbumArtSmall.jpg'));
+        if ($question['topic_id'] == 1) {
+            $view = 'questions.editPhotograph';
+        }
+        
         if ($request->method() == "POST") {
-            $name = $request->input('name');
-            $topic = $request->input('topic');
-            $file = $request->file('image');
-            $folder = storage_path('images/tests');
-            if (!empty($file)) {
-                $imageLink = $file->move($folder, $file->getClientOriginalName());
-            }
-
-            $updatedData = [];
-            if (!empty($topic)) $updatedData['topic_id'] = $topic;
-            if (!empty($name)) $updatedData['name'] = $name;
-            if (!empty($imageLink)) $updatedData['image_link'] = $imageLink;
-            if (!empty($updatedData)) $updatedData['updated_at'] = new \DateTime();
-
-            if (!empty($updatedData)) {
-                $result = $this->tests->where('id', $id)->update($updatedData);
-            }
-
             if ($result) {
-                return redirect('tests/list');
+                return redirect('questions/list');
             }
         }
 
-        return view('tests.edit', ['test' => $test, 'topics' => $topics]);
+        return view($view, ['question' => $question, 'topic' => $topic, 'childrenQuestions' => $childrenQuestions]);
     }
 
     public function deleteAction(Request $request)
@@ -83,14 +71,13 @@ class QuestionsController extends Controller
     private function createPhotographQuestion($request)
     {
         if (empty($request)) return NULL;
-
-        $result = false;
+        
         $params = $request->all();
         $questions = !empty($params['questions']) ? $params['questions'] : [];
         if (empty($questions)) return NULL;
 
         //create folder
-        $folder = storage_path('images/questions/photographs') . date('YmdHis');
+        $folder = 'storage/images/questions/photographs' . date('YmdHis');
         mkdir($folder, 0777, true);
 
         //set radio link
@@ -129,6 +116,6 @@ class QuestionsController extends Controller
             $savedQuestionId = $this->questions->insertGetId($questionData);
         }
 
-        return $result;
+        return true;
     }
 }

@@ -19,6 +19,7 @@ class Questions extends Model
     public function getQuestionList() {
         $questions = $this->join('topics', 'questions.topic_id', '=', 'topics.id')
             ->select('questions.*', 'topics.name as topic_name')
+            ->where(['parent_id' => 0])
             ->get()
             ->toArray();
 
