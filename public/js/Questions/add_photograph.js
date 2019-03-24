@@ -3,7 +3,7 @@ var questions = 1;
 $(function() {
    $('.btn-add').on('click', function() {
         var question = $('.question-template-area').find('.question-template').clone();
-       question.html(question.html().replace(/questionNo/g, questions));
+       question.html(question.html().replace(/questionNo/g, 'new_' + questions));
        question.html(question.html().replace(/questionsTmp/g, 'questions'));
        question.css('display', 'block');
        $('.question-area').append(question);

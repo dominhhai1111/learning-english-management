@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Tests;
 use App\Topics;
+use App\Questions;
 
 class TestsController extends Controller
 {
     public function __construct() {
         $this->tests = new Tests();
         $this->topics = new Topics();
+        $this->questions = new Questions();
     }
 
     public function listAction() {
@@ -47,10 +49,11 @@ class TestsController extends Controller
     public function editAction(Request $request) {
         $id = $request->query('id');
         $test = $this->tests->getTestById($id);
-        $topics = $this->topics->all()->toArray();
+        $topic = $this->topics->where('id', $test['topic_id'])->first();
+        $questions = $this->questions->getQuestionsOfTest($id);
+
         if ($request->method() == "POST") {
             $name = $request->input('name');
-            $topic = $request->input('topic');
             $file = $request->file('image');
             $folder = storage_path('images/tests');
             if (!empty($file)) {
@@ -58,7 +61,6 @@ class TestsController extends Controller
             }
 
             $updatedData = [];
-            if (!empty($topic)) $updatedData['topic_id'] = $topic;
             if (!empty($name)) $updatedData['name'] = $name;
             if (!empty($imageLink)) $updatedData['image_link'] = $imageLink;
             if (!empty($updatedData)) $updatedData['updated_at'] = new \DateTime();
@@ -72,7 +74,7 @@ class TestsController extends Controller
             }
         }
 
-        return view('tests.edit', ['test' => $test, 'topics' => $topics]);
+        return view('tests.edit', ['test' => $test, 'topic' => $topic, 'questions' => $questions]);
     }
 
     public function deleteAction(Request $request)
@@ -83,5 +85,26 @@ class TestsController extends Controller
         if ($result) {
             return redirect('tests/list');
         }
+    }
+
+    public function testPhotographAction(Request $request) {
+        $id = $request->query('id');
+        $test = $this->tests->getTestById($id);
+        $questions = $this->questions->getQuestionsOfTest($id);
+        $questions = $this->getFullChildrenQuestion($questions);
+
+        return view('tests.testPhotograph', ['test' => $test, 'questions' => $questions]);
+    }
+
+    private function getFullChildrenQuestion($questions) {
+        if (empty($questions)) return NULL;
+
+        $formatQuestions = $questions;
+        foreach ($questions as $key => $question) {
+            $childrenQuestions = $this->questions->where(['parent_id' => $question['id']])->get()->toArray();
+            $formatQuestions[$key]['children'] = $childrenQuestions;
+        }
+
+        return $formatQuestions;
     }
 }

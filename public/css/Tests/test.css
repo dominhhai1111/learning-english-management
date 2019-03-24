@@ -1,0 +1,29 @@
+.title {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.container {
+    padding: 20px 15px;
+    background-color: #ece2c9;
+}
+
+.photograph-test .audio-area audio {
+    width: 250px;
+    height: 30px;
+}
+
+.photograph-test .question-area {
+    padding-top: 30px;
+}
+.photograph-test .question-area .question {
+    padding-bottom: 20px;
+}
+
+.photograph-test .question-area .question .image-area {
+    padding-bottom: 10px;
+}
+
+.photograph-test .question-area .question .choices input{
+    margin: 0 5px;
+}

@@ -50,6 +50,11 @@ class QuestionsController extends Controller
         }
         
         if ($request->method() == "POST") {
+//            dd($request->all());
+            $questionType = $request->input('questionType');
+            if (!empty($questionType) & $questionType == 'photograph') {
+                $result = $this->updatePhotographQuestion($request);
+            }
             if ($result) {
                 return redirect('questions/list');
             }
@@ -77,13 +82,14 @@ class QuestionsController extends Controller
         if (empty($questions)) return NULL;
 
         //create folder
-        $folder = 'storage/images/questions/photographs' . date('YmdHis');
+        $folder = 'resources/questions/photographs' . date('YmdHis');
         mkdir($folder, 0777, true);
 
         //set radio link
         $radioFile = $params['radio_link'];
         if (!empty($radioFile)) {
-            $radioLink = $radioFile->move($folder, $radioFile->getClientOriginalName());
+            $radioLink = $folder . '/' . $radioFile->getClientOriginalName();
+            $savedRadioLink = $radioFile->move($folder, $radioFile->getClientOriginalName());
         }
 
         //create parent question
@@ -102,7 +108,8 @@ class QuestionsController extends Controller
         foreach ($questions as $question) {
             $file = $question['image'];
             if (!empty($file)) {
-                $imageLink = $file->move($folder, $file->getClientOriginalName());
+                $imageLink = $folder . '/' . $file->getClientOriginalName();
+                $savedImageLink = $file->move($folder, $file->getClientOriginalName());
             }
 
             $questionData = [
@@ -117,5 +124,14 @@ class QuestionsController extends Controller
         }
 
         return true;
+    }
+
+    private function updatePhotographQuestion($request) {
+        $params = $request->all();
+        $parentData = [];
+        $parentData['description'] = $params['description'];
+        $parentData['level'] = $params['level'];
+
+        $updatedParentQuestion = $this->questions->where('id', $params['id'])->update($parentData);
     }
 }

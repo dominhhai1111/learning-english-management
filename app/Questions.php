@@ -9,6 +9,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Questions extends Model
 {
@@ -22,6 +23,19 @@ class Questions extends Model
             ->where(['parent_id' => 0])
             ->get()
             ->toArray();
+
+        return $questions;
+    }
+
+    public function getQuestionsOfTest($testId) {
+        $questions = $this->join('merge_test_question', function ($join) use ($testId) {
+                            $join->on('questions.id', '=', 'merge_test_question.question_id')
+                                ->where('merge_test_question.test_id', '=', $testId);
+                            })
+                        ->join('topics', 'questions.topic_id', '=', 'topics.id')
+                        ->select('questions.*', 'topics.name as topic_name')
+                        ->get()
+                        ->toArray();
 
         return $questions;
     }

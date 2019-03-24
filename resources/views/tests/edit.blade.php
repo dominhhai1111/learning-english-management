@@ -20,15 +20,40 @@
                         </div>
                         <div class="form-group">
                             <label for="name">Topic</label>
-                            <select name="topic" class="form-control">
-                                @foreach ($topics as $topic)
-                                    <option value="{{$topic['id']}}" >{{$topic['name']}}</option>
-                                @endforeach
-                            </select>
+                            <input type="text" value="{{$topic['name']}}" readonly>
                         </div>
                         <div class="form-group">
                             <label for="image_link">Image input</label>
                             <input type="file" name="image" id="inputImage">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Quesions</label>
+                            <div class="table-area">
+                                <table id="questions-table" class="display">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Descriptions</th>
+                                        <th>Topic</th>
+                                        <th>Level</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach ($questions as $question)
+                                        <tr>
+                                            <td>{{$question['id']}}</td>
+                                            <td>{{$question['description']}}</td>
+                                            <td>{{$question['topic_name']}}</td>
+                                            <td>{{$question['level']}}</td>
+                                            <td><button type="button" class="btn btn-success" onclick="location.href='/questions/edit?id={{$question['id']}}'">Edit</button>
+                                                <button type="button" id="btnDelete" class="btn btn-danger" onclick="confirmDeleteTest({{$question['id']}})">Delete</button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <!-- /.box-body -->
@@ -44,4 +69,8 @@
 
 @section('bottom-script')
     <link rel="stylesheet" href="../AdminLTE/css/AdminLTE.min.css">
+    <link href="../DataTables/datatables.css" rel="stylesheet" />
+    {{--<link href="../css/questions/list.css" rel="stylesheet" />--}}
+    <script src="../DataTables/datatables.js"></script>
+    <script src="../js/tests/edit.js"></script>
 @endsection

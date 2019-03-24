@@ -9,7 +9,6 @@
 <!-- form start -->
 <form role="form" method="post" action="" enctype="multipart/form-data">
     @csrf <!-- {{ csrf_field() }} -->
-    <img style="width: 300px; height: 200px" class="questionsTmp_questionNo_show" src="/storage\images/questions/photographs20190318150112\AlbumArtSmall.jpg" alt="your image">
     <input type="hidden" name="questionType" value="photograph">
     <div class="box-body">
         <div class="form-group">
@@ -23,6 +22,7 @@
         <div class="form-group">
             <label for="name">Radio</label>
             <input type="file" name="radio_link" class="form-control">
+            <a href="{{URL::to('/') . '/' . $question['radio_link']}}">current file</a>
         </div>
         <div class="form-group">
             <label for="name">Difficulty</label>
@@ -39,15 +39,15 @@
             @foreach($childrenQuestions as $question)
                 <div class="form-group">
                     <label for="image_link">Image input</label>
-                    <input type="file" name="questionsTmp[questionNo][image]" class="questionsTmp_questionNo" onchange="readURL(this)">
-                    <img style="width: 300px; height: 200px" class="questionsTmp_questionNo_show" src="{{$question['image_link']}}" alt="your image" />
+                    <input type="file" name="questions[{{$question['id']}}][image]" class="questions_{{$question['id']}}" onchange="readURL(this)">
+                    <img style="width: 300px; height: 200px" class="questions_{{$question['id']}}_show" src="{{URL::to('/') . '/' . $question['image_link']}}" alt="your image" />
                 </div>
                 <div class="form-group">
                     <label for="">Options</label>
-                    <input type="radio" name="questionsTmp[questionNo][option]" value="A" checked>A
-                    <input type="radio" name="questionsTmp[questionNo][option]" value="B">B
-                    <input type="radio" name="questionsTmp[questionNo][option]" value="C">C
-                    <input type="radio" name="questionsTmp[questionNo][option]" value="D">D
+                    <input type="radio" name="questions[{{$question['id']}}][option]" value="A" checked>A
+                    <input type="radio" name="questions[{{$question['id']}}][option]" value="B">B
+                    <input type="radio" name="questions[{{$question['id']}}][option]" value="C">C
+                    <input type="radio" name="questions[{{$question['id']}}][option]" value="D">D
                 </div>
             @endforeach
         </div>
