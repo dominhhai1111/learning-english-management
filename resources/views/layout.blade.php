@@ -84,7 +84,6 @@
 <!-- CUSTOM SCRIPTS -->
 <script src="../js/custom.js"></script>
 <script src="../AdminLTE/js/adminlte.min.js"></script>
-<script src="../AdminLTE/js/pages/dashboard2.js"></script>
 {{--<script src="../js/custom.js"></script>--}}
 @yield('bottom-script')
 </body>

@@ -27,13 +27,13 @@ class Questions extends Model
         return $questions;
     }
 
-    public function getQuestionsOfTest($testId) {
-        $questions = $this->join('merge_test_question', function ($join) use ($testId) {
-                            $join->on('questions.id', '=', 'merge_test_question.question_id')
-                                ->where('merge_test_question.test_id', '=', $testId);
-                            })
-                        ->join('topics', 'questions.topic_id', '=', 'topics.id')
+    public function getQuestionsOfTest($questionIds) {
+        if (empty($questionIds)) return NULL;
+
+        $questionIds = \GuzzleHttp\json_decode($questionIds);
+        $questions = $this->join('topics', 'questions.topic_id', '=', 'topics.id')
                         ->select('questions.*', 'topics.name as topic_name')
+                        ->whereIn ('questions.id', $questionIds)
                         ->get()
                         ->toArray();
 

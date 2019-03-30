@@ -28,6 +28,7 @@ Route::any('/tests/add', 'TestsController@addAction');
 Route::any('/tests/edit', 'TestsController@editAction');
 Route::any('/tests/delete', 'TestsController@deleteAction');
 Route::any('/tests/photograph', 'TestsController@testPhotographAction');
+Route::any('/tests/get-question', 'TestsController@getQuestionById');
 
 Route::get('/questions/list', 'QuestionsController@listAction');
 Route::any('/questions/add', 'QuestionsController@addAction');

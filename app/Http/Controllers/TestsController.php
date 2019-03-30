@@ -50,9 +50,13 @@ class TestsController extends Controller
         $id = $request->query('id');
         $test = $this->tests->getTestById($id);
         $topic = $this->topics->where('id', $test['topic_id'])->first();
-        $questions = $this->questions->getQuestionsOfTest($id);
+        $questions = $this->questions->getQuestionsOfTest($test['questions']);
 
         if ($request->method() == "POST") {
+            $params = $request->all();
+
+            $questions = !empty($params['questions']) ? $params['questions'] : [];
+            $questions = json_encode($questions);
             $name = $request->input('name');
             $file = $request->file('image');
             $folder = storage_path('images/tests');
@@ -63,6 +67,7 @@ class TestsController extends Controller
             $updatedData = [];
             if (!empty($name)) $updatedData['name'] = $name;
             if (!empty($imageLink)) $updatedData['image_link'] = $imageLink;
+            if (!empty($questions)) $updatedData['questions'] = $questions;
             if (!empty($updatedData)) $updatedData['updated_at'] = new \DateTime();
 
             if (!empty($updatedData)) {
@@ -90,10 +95,17 @@ class TestsController extends Controller
     public function testPhotographAction(Request $request) {
         $id = $request->query('id');
         $test = $this->tests->getTestById($id);
-        $questions = $this->questions->getQuestionsOfTest($id);
+        $questions = $this->questions->getQuestionsOfTest($test['questions']);
         $questions = $this->getFullChildrenQuestion($questions);
 
         return view('tests.testPhotograph', ['test' => $test, 'questions' => $questions]);
+    }
+
+    public function getQuestionById(Request $request) {
+        $id = $request->query('questionId');
+        $question = $this->questions->where('id', '=', $id)->first()->toArray();
+
+        return response()->json($question);
     }
 
     private function getFullChildrenQuestion($questions) {
