@@ -44,10 +44,10 @@
                 </div>
                 <div class="form-group">
                     <label for="">Options</label>
-                    <input type="radio" name="questions[{{$question['id']}}][option]" value="A" checked>A
-                    <input type="radio" name="questions[{{$question['id']}}][option]" value="B">B
-                    <input type="radio" name="questions[{{$question['id']}}][option]" value="C">C
-                    <input type="radio" name="questions[{{$question['id']}}][option]" value="D">D
+                    <input type="radio" name="questions[{{$question['id']}}][option]" value="A" @if($question['correct_answer'] == 'A') checked @endif>A
+                    <input type="radio" name="questions[{{$question['id']}}][option]" value="B" @if($question['correct_answer'] == 'B') checked @endif>B
+                    <input type="radio" name="questions[{{$question['id']}}][option]" value="C" @if($question['correct_answer'] == 'C') checked @endif>C
+                    <input type="radio" name="questions[{{$question['id']}}][option]" value="D" @if($question['correct_answer'] == 'D') checked @endif>D
                 </div>
             @endforeach
         </div>
@@ -60,7 +60,7 @@
                 </div>
                 <div class="form-group">
                     <label for="">Options</label>
-                    <input type="radio" name="questionsTmp[questionNo][option]" value="A" checked>A
+                    <input type="radio" name="questionsTmp[questionNo][option]" value="A">A
                     <input type="radio" name="questionsTmp[questionNo][option]" value="B">B
                     <input type="radio" name="questionsTmp[questionNo][option]" value="C">C
                     <input type="radio" name="questionsTmp[questionNo][option]" value="D">D

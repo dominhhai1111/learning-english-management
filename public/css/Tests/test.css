@@ -6,6 +6,7 @@
 .container {
     padding: 20px 15px;
     background-color: #ece2c9;
+    min-height: 800px;
 }
 
 .photograph-test .audio-area audio {
@@ -26,4 +27,16 @@
 
 .photograph-test .question-area .question .choices input{
     margin: 0 5px;
+}
+
+.photograph-test .btn-back {
+    width: 60px;
+}
+
+.photograph-test .btn-next {
+    width: 60px;
+}
+
+.photograph-test .choose-questions {
+    padding-bottom: 20px;
 }

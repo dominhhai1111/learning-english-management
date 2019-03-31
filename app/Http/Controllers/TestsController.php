@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Tests;
 use App\Topics;
 use App\Questions;
+use Illuminate\Support\Facades\Config;
+
 
 class TestsController extends Controller
 {

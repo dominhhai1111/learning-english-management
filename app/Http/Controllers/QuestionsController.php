@@ -44,16 +44,15 @@ class QuestionsController extends Controller
         $question = $this->questions->where('id', '=', $id)->first()->toArray();
         $topic = $this->topics->where(['id' => $question['topic_id']])->first()->toArray();
         $childrenQuestions = $this->questions->where(['parent_id' => $id])->get()->toArray();
-        //dd(asset('/storage\images/questions/photographs20190318150112\AlbumArtSmall.jpg'));
         if ($question['topic_id'] == 1) {
             $view = 'questions.editPhotograph';
         }
         
         if ($request->method() == "POST") {
-//            dd($request->all());
             $questionType = $request->input('questionType');
             if (!empty($questionType) & $questionType == 'photograph') {
                 $result = $this->updatePhotographQuestion($request);
+                redirect($request->getUri());
             }
             if ($result) {
                 return redirect('questions/list');
@@ -86,7 +85,7 @@ class QuestionsController extends Controller
         mkdir($folder, 0777, true);
 
         //set radio link
-        $radioFile = $params['radio_link'];
+        $radioFile = !empty($params['radio_link']) ? $params['radio_link'] : '';
         if (!empty($radioFile)) {
             $radioLink = $folder . '/' . $radioFile->getClientOriginalName();
             $savedRadioLink = $radioFile->move($folder, $radioFile->getClientOriginalName());
@@ -99,6 +98,7 @@ class QuestionsController extends Controller
             'level'         => !empty($request->input('level')) ? $request->input('level') : 1,
             'description'   => !empty($request->input('description')) ? $request->input('description') : '',
             'radio_link'    => $radioLink,
+            'image_link'    => $folder,
             'created_at'    => new \DateTime(),
             'updated_at'    => new \DateTime()
         ];
@@ -106,18 +106,19 @@ class QuestionsController extends Controller
 
         //create children questions
         foreach ($questions as $question) {
-            $file = $question['image'];
+            $file = !empty($question['image']) ? $question['image'] : '';
             if (!empty($file)) {
                 $imageLink = $folder . '/' . $file->getClientOriginalName();
                 $savedImageLink = $file->move($folder, $file->getClientOriginalName());
             }
 
             $questionData = [
-                'topic_id'      => 1,
-                'parent_id'     => $savedParentQuestionId,
-                'image_link'    => $imageLink,
-                'created_at'    => new \DateTime(),
-                'updated_at'    => new \DateTime()
+                'topic_id'          => 1,
+                'parent_id'         => $savedParentQuestionId,
+                'image_link'        => $imageLink,
+                'created_at'        => new \DateTime(),
+                'updated_at'        => new \DateTime(),
+                'correct_answer'    => $question['option']
             ];
 
             $savedQuestionId = $this->questions->insertGetId($questionData);
@@ -128,9 +129,50 @@ class QuestionsController extends Controller
 
     private function updatePhotographQuestion($request) {
         $params = $request->all();
+//        dd($params);
+        $parentQuestion = $this->questions->where('id', '=', $params['id'])->first()->toArray();
+//        dd($parentQuestion);
         $parentData = [];
         $parentData['description'] = $params['description'];
         $parentData['level'] = $params['level'];
+        $childrenQuestions = $params['questions'];
+//        dd($childrenQuestions);
+        if (!empty($childrenQuestions)) {
+            foreach ($childrenQuestions as $key =>$question) {
+                if (strpos($key, 'new') !== false) {
+                    //add new question
+                    $file = !empty($question['image']) ? $question['image'] : '';
+                    if (!empty($file)) {
+                        $imageLink = $parentQuestion['image_link'] . '/' . $file->getClientOriginalName();
+                        $savedImageLink = $file->move($parentQuestion['image_link'], $file->getClientOriginalName());
+                    }
+
+                    $questionData = [
+                        'topic_id'      => 1,
+                        'parent_id'     => $parentQuestion['id'],
+                        'image_link'    => $imageLink,
+                        'created_at'    => new \DateTime(),
+                        'updated_at'    => new \DateTime(),
+                        'correct_answer'    => $question['option']
+                    ];
+
+                    $savedQuestionId = $this->questions->insertGetId($questionData);
+                } else {
+                    $file = !empty($question['image']) ? $question['image'] : '';
+                    if (!empty($file)) {
+                        $imageLink = $parentQuestion['image_link'] . '/' . $file->getClientOriginalName();
+                        $savedImageLink = $file->move($parentQuestion['image_link'], $file->getClientOriginalName());
+                    }
+//dd($key);
+                    $questionData = [];
+                    $questionData['updated_at'] = new \DateTime();
+                    if (!empty($imageLink)) $questionData['image_link'] = $imageLink;
+                    if (!empty($question['option'])) $questionData['correct_answer'] = $question['option'];
+
+                    $updatedQuestion = $this->questions->where('id', $key)->update($questionData);
+                }
+            }
+        }
 
         $updatedParentQuestion = $this->questions->where('id', $params['id'])->update($parentData);
     }
