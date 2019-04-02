@@ -44,10 +44,22 @@
                                     <img src="/{{ $child['image_link'] }}" alt="" width="200px" height="160px">
                                 </div>
                                 <div class="row choices">
-                                    <input type="radio" class="choice" name="questions[{{$question['id']}}][option]" value="A">A
-                                    <input type="radio" class="choice" name="questions[{{$question['id']}}][option]" value="B">B
-                                    <input type="radio" class="choice" name="questions[{{$question['id']}}][option]" value="C">C
-                                    <input type="radio" class="choice" name="questions[{{$question['id']}}][option]" value="D">D
+                                    <span class="choice-area">
+                                        <span class="radio-check radio-check-A"></span>
+                                        <input type="radio" class="choice radio-inline" name="questions[{{$child['id']}}][option]" value="A">A
+                                    </span>
+                                    <span class="choice-area">
+                                        <span class="radio-check radio-check-B"></span>
+                                        <input type="radio" class="choice radio-inline" name="questions[{{$child['id']}}][option]" value="B">B
+                                    </span>
+                                    <span class="choice-area">
+                                        <span class="radio-check radio-check-C"></span>
+                                        <input type="radio" class="choice radio-inline" name="questions[{{$child['id']}}][option]" value="C">C
+                                    </span>
+                                    <span class="choice-area">
+                                        <span class="radio-check radio-check-D"></span>
+                                        <input type="radio" class="choice radio-inline" name="questions[{{$child['id']}}][option]" value="D">D
+                                    </span>
                                 </div>
                             </div>
                             @if(($key + 1) % LIMIT_PER_PAGE_PHOTOGRAPH == 0 || ($key + 1) == sizeof($question['children']))
@@ -74,15 +86,14 @@
                 </select>
                 <span class="btn btn-success btn-next">Bext</span>
             </div>
-            <div class="row">
+            <div class="row control-area">
                 <span class="btn btn-success btn-submit">Submit</span>
+                <div class="result" style="display: none">
+                    <p class="btn btn-success btn-show-answer">Show answers</p>
+                    <p>Correct: <span class="score"></span></p>
+                </div>
             </div>
         @endforeach
-    </div>
-    <div class="result-screen" style="display: none">
-        <div class="result">
-            <p>Correct: <span class="score"></span></p>
-        </div>
     </div>
 </div>
 

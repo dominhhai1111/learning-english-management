@@ -16,6 +16,10 @@ $(function () {
     $('.btn-submit').on('click', function() {
        getResult();
     });
+
+    $('.btn-show-answer').on('click', function () {
+        showAnswers();
+    })
 });
 
 function selectPage() {
@@ -54,6 +58,20 @@ function getResult() {
     });
 
     $('.result').find('.score').text(correctNumber + '/' + number);
-    $('.test-screen').css('display', 'none');
-    $('.result-screen').css('display', 'block');
+    $('.btn-submit').css('display', 'none');
+    $('.result').css('display', 'block');
+}
+
+function showAnswers() {
+    $.each($('.question'), function(index, value) {
+        var question = $(value);
+        var correctAnswer = question.attr('correct-answer');
+        var selectAnswer = question.find('.choice:checked').val();
+
+        if (correctAnswer != selectAnswer) {
+            if (selectAnswer != '') {
+                question.find('.radio-check-' + selectAnswer).html('x');
+            }
+        }
+    });
 }
