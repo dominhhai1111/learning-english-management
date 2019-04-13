@@ -18,3 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/user/login', 'AppApiController@login');
+Route::post('/user/auto-login', 'AppApiController@autoLogin');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Topics;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,7 @@ class AppApiController extends Controller
     public function __construct()
     {
         $this->topics = new Topics();    
+        $this->users = new User();
     }
 
     public function getAllTopics()
@@ -51,4 +53,24 @@ class AppApiController extends Controller
         return response()->json($result);
     }
 
+    public function autoLogin(Request $request)
+    {
+        $data = $request->all();
+        $rememberToken = !empty($data['remember_token']) ? $data['remember_token'] : '';
+        $user = $this->users->where(['remember_token' => $rememberToken])->first();
+        
+        if (!empty($user)) {
+            $result = [
+                'status'            => 200,
+                'message'           => 'Login Success',
+            ];
+        } else {
+            $result = [
+                'status'    => 404,
+                'message'   => 'Login Failed'
+            ];
+        }
+
+        return response()->json($result);
+    }
 }
