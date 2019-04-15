@@ -32,7 +32,7 @@ class AppApiController extends Controller
         $password = !empty($data['password']) ? $data['password'] : '';
 
         $result = [
-            'status'    => 404,
+            'status'    => 'fail',
             'message'   => 'Login Failed'
         ];
 
@@ -43,7 +43,7 @@ class AppApiController extends Controller
             if ($checkLogin) {
                 $user = Auth::user();
                 $result = [
-                    'status'            => 200,
+                    'status'            => 'success',
                     'message'           => 'Login Success',
                     'remember_token'    => $user['remember_token']
                 ];
@@ -61,12 +61,12 @@ class AppApiController extends Controller
         
         if (!empty($user)) {
             $result = [
-                'status'            => 200,
+                'status'            => 'success',
                 'message'           => 'Login Success',
             ];
         } else {
             $result = [
-                'status'    => 404,
+                'status'    => 'fail',
                 'message'   => 'Login Failed'
             ];
         }

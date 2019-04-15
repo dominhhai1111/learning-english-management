@@ -35,5 +35,8 @@ Route::any('/questions/add', 'QuestionsController@addAction');
 Route::any('/questions/edit', 'QuestionsController@editAction');
 Route::any('/questions/delete', 'QuestionsController@deleteAction');
 
+//app
+Route::any('/user/register', 'WebView\UserController@register');
+
 // app api
 Route::get('/api/all_topics', 'AppApiController@getAllTopics');

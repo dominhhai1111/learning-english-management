@@ -9,9 +9,9 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        Mail::send('mail.test', ['test' => 'Test123'], function($message) {
-            $message->to('nomcbwcz@sharklasers.com')->subject('Test laravel mail');
-        });
+//        Mail::send('mail.test', ['test' => 'Test123'], function($message) {
+//            $message->to('nomcbwcz@sharklasers.com')->subject('Test laravel mail');
+//        });
 
         return view('dashboard');
     }
