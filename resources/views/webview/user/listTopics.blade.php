@@ -1,17 +1,14 @@
 @extends('webview/user/layout')
 
 @section('page-inner')
-	<style>
-
-	</style>
-	<div class="webview-container">
+	<div class="webview-container topic-list">
 		@foreach ($topics as $topic)
-			<div class="row">
-				<div class="col-xs-5">
-					<img src="/img/photograph.jpg" alt="">
+			<div class="row topic-area">
+				<div class="col-xs-5 image-area">
+					<img src="{{URL::to('/') . '/' . $topic['image_link']}}" alt="">
 				</div>
 
-				<div class="col-xs-7">
+				<div class="col-xs-7 title-area">
 					{{ $topic['name'] }}
 				</div>
 			</div>

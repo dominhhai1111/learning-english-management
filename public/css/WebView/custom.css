@@ -1,0 +1,27 @@
+.webview-container {
+    padding: 20px 15px;
+    background-color: #ece2c9;
+    min-height: 800px;
+}
+
+.topic-list .topic-area {
+    margin-top: 15px;
+    border: 1px solid;
+    background-color: #f39c12;
+}
+
+.topic-list .topic-area .image-area {
+    background-color: white;
+    min-height: 100px;
+    padding: 15px;
+}
+
+.topic-list .topic-area .title-area {
+    font-weight: bold;
+    font-size: 18px;
+    padding-top: 15px;
+}
+
+.topic-list .topic-area .image-area img {
+    width: 100%;
+}

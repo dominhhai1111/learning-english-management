@@ -16,6 +16,8 @@
     <!-- iCheck -->
     <link rel="stylesheet" href="../AdminLTE/plugins/iCheck/square/blue.css">
 
+    <link href="../css/webview/custom.css" rel="stylesheet" />
+
     <!-- jQuery 3 -->
     <script src="../AdminLTE/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap 3.3.7 -->

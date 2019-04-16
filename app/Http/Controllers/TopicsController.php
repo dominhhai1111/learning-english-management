@@ -25,7 +25,7 @@ class TopicsController extends Controller
             $key = $request->input('key');
             $name = $request->input('name');
             $file = $request->file('image');
-            $folder = storage_path('images/topics');
+            $folder = 'resources/topics';
             $imageLink = $file->move($folder, $file->getClientOriginalName());
 
             $result = $this->topics->insert([
@@ -50,7 +50,7 @@ class TopicsController extends Controller
             $key = $request->input('key');
             $name = $request->input('name');
             $file = $request->file('image');
-            $folder = storage_path('images/topics');
+            $folder = 'resources/topics';
             if (!empty($file)) {
                 $imageLink = $file->move($folder, $file->getClientOriginalName());
             }
