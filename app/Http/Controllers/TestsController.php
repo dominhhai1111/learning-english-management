@@ -30,7 +30,7 @@ class TestsController extends Controller
             $name = $request->input('name');
             $topic = $request->input('topic');
             $file = $request->file('image');
-            $folder = storage_path('images/tests');
+            $folder = 'resources/tests';
             $imageLink = $file->move($folder, $file->getClientOriginalName());
 
             $result = $this->tests->insert([
@@ -53,6 +53,7 @@ class TestsController extends Controller
         $test = $this->tests->getTestById($id);
         $topic = $this->topics->where('id', $test['topic_id'])->first();
         $questions = $this->questions->getQuestionsOfTest($test['questions']);
+        $questions = !empty($questions) ? $questions : [];
 
         if ($request->method() == "POST") {
             $params = $request->all();
@@ -61,7 +62,7 @@ class TestsController extends Controller
             $questions = json_encode($questions);
             $name = $request->input('name');
             $file = $request->file('image');
-            $folder = storage_path('images/tests');
+            $folder = 'resources/tests';
             if (!empty($file)) {
                 $imageLink = $file->move($folder, $file->getClientOriginalName());
             }
