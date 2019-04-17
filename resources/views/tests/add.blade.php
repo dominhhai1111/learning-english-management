@@ -27,7 +27,8 @@
                         </div>
                         <div class="form-group">
                             <label for="image_link">Image input</label>
-                            <input type="file" name="image" id="inputImage">
+                            <input type="file" class="test_image" name="image" id="inputImage" onchange="readURL(this)">
+                            <img style="width: 300px; height: 200px" class="test_image_show" src="#" alt="your image" />
                         </div>
                     </div>
                     <!-- /.box-body -->
@@ -39,6 +40,20 @@
             </div>
         </div>
     </div>
+    <script>
+        function readURL(input) {
+            var className = input.className + '_show';
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('.' + className).attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 @endsection
 
 @section('bottom-script')
