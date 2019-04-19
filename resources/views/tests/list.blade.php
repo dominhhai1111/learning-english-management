@@ -45,7 +45,7 @@
 
 @section('bottom-script')
 	<link href="../DataTables/datatables.css" rel="stylesheet" />
-	<link href="../css/Tests/list.css" rel="stylesheet" />
+	<link href="../css/tests/list.css" rel="stylesheet" />
 	<script src="../DataTables/datatables.js"></script>
-	<script src="../js/Tests/list.js"></script>
+	<script src="../js/tests/list.js"></script>
 @endsection

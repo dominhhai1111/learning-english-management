@@ -42,7 +42,7 @@
 
 @section('bottom-script')
 	<link href="../DataTables/datatables.css" rel="stylesheet" />
-	<link href="../css/Topics/list.css" rel="stylesheet" />
+	<link href="../css/topics/list.css" rel="stylesheet" />
 	<script src="../DataTables/datatables.js"></script>
 	<script src="../js/topics/list.js"></script>
 @endsection

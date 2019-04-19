@@ -52,7 +52,7 @@ class TestsController extends Controller
         $id = $request->query('id');
         $test = $this->tests->getTestById($id);
         $topic = $this->topics->where('id', $test['topic_id'])->first();
-        $questions = $this->questions->getQuestionsOfTest($test['questions']);
+        $questions = !empty($test['questions']) ? $this->questions->getQuestionsOfTest($test['questions']) : [];
         $questions = !empty($questions) ? $questions : [];
 
         if ($request->method() == "POST") {

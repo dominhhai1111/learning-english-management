@@ -5,22 +5,35 @@ namespace App\Http\Controllers\WebView;
 use App\Http\Controllers\Controller;
 use App\Questions;
 use App\Tests;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TestsController extends Controller
 {
-    public function __construct()
+    public function __construct(Request $request)
     {
         $this->tests = new Tests();
         $this->questions = new Questions();
+        $this->user = new User();
+
+        $rememberToken = $request->query('remember_token');
+        if (!empty($rememberToken)) {
+            $user = $this->user->where(['remember_token' => $rememberToken])->first();
+            Auth::setUser($user);
+        }
     }
 
     public function listTests(Request $request)
     {
         $topicId = $request->query('topic-id');
         $tests = $this->tests->where(['topic_id' => $topicId])->get()->toArray();
-//dd($tests);
-        return view('webview/user/listTests', ['tests' => $tests]);
+
+        $params = [];
+        $params['tests'] = $tests;
+        $params['user'] = !empty(Auth::user()) ? Auth::user() : [];
+
+        return view('webview/user/listTests', $params);
     }
 
     public function test(Request $request) {

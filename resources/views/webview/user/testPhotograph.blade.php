@@ -1,7 +1,7 @@
 @extends('webview/user/layout')
 
 @section('head-script')
-    <link href="../css/Tests/test.css" rel="stylesheet" />
+    <link href="../css/tests/test.css" rel="stylesheet" />
 @endsection
 
 @section('page-inner')
