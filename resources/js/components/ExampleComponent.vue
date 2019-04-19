@@ -4,9 +4,9 @@
             <div class="col-md-8">
                 <div class="card card-default">
                     <div class="card-header">Example Component</div>
-
+                    <input type="text" v-model="name">
                     <div class="card-body">
-                        I'm an example component.
+                        my name : {{ name }}
                     </div>
                 </div>
             </div>
@@ -16,6 +16,11 @@
 
 <script>
     export default {
+        data() {
+            return {
+                name: ''
+            }
+        },
         mounted() {
             console.log('Component mounted.')
         }

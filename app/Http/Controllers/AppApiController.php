@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\UserTest;
 use Illuminate\Http\Request;
 use App\Topics;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,7 @@ class AppApiController extends Controller
     {
         $this->topics = new Topics();    
         $this->users = new User();
+        $this->userTest = new UserTest();
     }
 
     public function getAllTopics()
@@ -72,5 +74,18 @@ class AppApiController extends Controller
         }
 
         return response()->json($result);
+    }
+
+    public function updateMemberResult(Request $request)
+    {
+        $data = $request->all();
+        $userId = !empty($data['user_id']) ? $data['user_id'] : '';
+        $testId = !empty($data['test_id']) ? $data['test_id'] : '';
+        $score = !empty($data['score']) ? $data['score'] : 0;
+        $time = !empty($data['time']) ? $data['time'] : 0;
+
+        
+        $userTest = $this->userTest->newEntity();
+
     }
 }
