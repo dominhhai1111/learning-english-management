@@ -1,7 +1,47 @@
-.user-info {
-    background-color: #ece2c9;
-    padding: 5px 0;
+/* Style the navigation menu */
+.topnav {
+    overflow: hidden;
+    background-color: #E5CE96;
+    position: relative;
+    min-height: 40px;
+}
+
+/* Hide the links inside the navigation menu (except for logo/home) */
+.topnav #myLinks {
+    display: none;
+}
+
+/* Style navigation menu links */
+.topnav a {
+    color: black;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    display: block;
     font-weight: bold;
+}
+
+.topnav .user-info {
+    color: black;
+    background-color: #e2c06f;
+    font-weight: bold;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    display: block;
+}
+
+/* Style the hamburger menu */
+.topnav a.icon {
+    background: #e2c06f;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.topnav a:hover {
+    background-color: #f1daa3;
 }
 
 .webview-container {
@@ -18,7 +58,7 @@
 
 .topic-list .topic-area .image-area {
     background-color: white;
-    min-height: 100px;
+    min-height: 120px;
     padding: 15px;
 }
 
@@ -44,6 +84,17 @@
     margin: 0;
 }
 
+.topic-list .topic-area .created {
+    font-weight: bold;
+    padding: 0;
+    margin: 10px 0 0;
+}
+
 .topic-list .topic-area .image-area img {
     width: 100%;
+}
+
+.user-info-screen .user-info-area {
+    font-size: 15px;
+    padding-top: 20px;
 }

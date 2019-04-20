@@ -1,13 +1,6 @@
 @extends('webview/user/layout')
 
 @section('page-inner')
-	<div class="user-info text-right">
-		<span>
-			@if (!empty($user['name']))
-				User name: {{$user['name']}}
-			@endif
-		</span>
-	</div>
 	<div class="webview-container topic-list">
 		@foreach ($topics as $topic)
 			<div class="row topic-area" onclick="goToTestList({{$topic['id']}})">
@@ -15,8 +8,8 @@
 					<img src="{{URL::to('/') . '/' . $topic['image_link']}}" alt="">
 				</div>
 
-				<div class="col-xs-7 title-area">
-					{{ $topic['name'] }}
+				<div class="col-xs-7 discription-area">
+					<p class="title">{{ $topic['name'] }}</p>
 				</div>
 			</div>
 		@endforeach

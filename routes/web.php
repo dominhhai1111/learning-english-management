@@ -37,6 +37,7 @@ Route::any('/questions/delete', 'QuestionsController@deleteAction');
 
 //app
 Route::any('/user/register', 'WebView\UserController@register');
+Route::any('/user/info', 'WebView\UserController@info');
 Route::any('/user/list-topics', 'WebView\TopicsController@listTopics');
 Route::any('/user/list-tests', 'WebView\TestsController@listTests');
 Route::any('/user/test', 'WebView\TestsController@test');

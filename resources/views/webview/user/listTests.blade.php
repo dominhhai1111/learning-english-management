@@ -1,13 +1,6 @@
 @extends('webview/user/layout')
 
 @section('page-inner')
-    <div class="user-info text-right">
-		<span>
-			@if (!empty($user['name']))
-                User name: {{$user['name']}}
-            @endif
-		</span>
-    </div>
     <div class="webview-container topic-list">
         @foreach ($tests as $test)
             <div class="row topic-area" onclick="goToTest({{$test['id']}})">
@@ -17,8 +10,21 @@
 
                 <div class="col-xs-7 discription-area">
                     <p class="title">{{ $test['name'] }}</p>
-                    <p class="score">Score: </p>
-                    <p class="time">Time: </p>
+                    <p class="score">Score:
+                        @if(!empty($test['highest_score']))
+                        <span>{{$test['highest_score']}}/{{$test['total_score']}}</span>
+                        @endif
+                    </p>
+                    <p class="time">Time:
+                        @if(isset($test['time']))
+                            <span>{{$test['time']}} minutes</span>
+                        @endif
+                    </p>
+                    <p class="created">
+                        @if(isset($test['record_created']))
+                            <span>{{$test['record_created']}}</span>
+                        @endif
+                    </p>
                 </div>
             </div>
         @endforeach

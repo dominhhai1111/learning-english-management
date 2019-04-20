@@ -82,10 +82,44 @@ class AppApiController extends Controller
         $userId = !empty($data['user_id']) ? $data['user_id'] : '';
         $testId = !empty($data['test_id']) ? $data['test_id'] : '';
         $score = !empty($data['score']) ? $data['score'] : 0;
-        $time = !empty($data['time']) ? $data['time'] : 0;
+        $time = !empty($data['time']) ? (int)$data['time'] : 0;
+        $savedData = [
+            "user_id"   => $userId,
+            "test_id"   => $testId,
+            "score"     => $score,
+            "time"      => $time
+        ];
 
-        
-        $userTest = $this->userTest->newEntity();
+        $where = [
+            "user_id"   => $savedData['user_id'],
+            "test_id"   => $savedData['test_id'],
+        ];
+        $userTestRecord = $this->userTest->where($where)->first();
 
+        $result = [
+            'isUpdated'         => false,
+            'isHighestScore'    => false
+        ];
+        if (empty($userTestRecord)) {
+            $savedUserTest = $this->userTest->create($savedData);
+            if ($savedUserTest) {
+                $result = [
+                    'isUpdated'         => true,
+                    'isHighestScore'    => true
+                ];
+            }
+        } elseif (!empty($userTestRecord) && $userTestRecord['score'] < $score) {
+            $savedUserTest = $this->userTest->where(['id' => $userTestRecord['id']])->update($savedData);
+            if ($savedUserTest) {
+                $result = [
+                    'isUpdated'         => true,
+                    'isHighestScore'    => true
+                ];
+            }
+        }
+
+        $this->users->updateMemberScores($userId);
+
+        return response()->json($result);
     }
 }

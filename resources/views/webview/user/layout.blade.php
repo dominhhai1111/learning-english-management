@@ -28,6 +28,25 @@
 <body>
 <div>
     <div>
+        <!-- Top Navigation Menu -->
+        <div class="topnav">
+            <!-- "Hamburger menu" / "Bar icon" to toggle the navigation links -->
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                <i class="fa fa-bars"></i>
+            </a>
+            <span class="active user-info text-right">
+                User name:
+                @if (!empty($user['name']))
+                    {{$user['name']}}
+                @endif
+            </span>
+            <!-- Navigation links (hidden by default) -->
+            <div id="myLinks">
+                <a href="/user/info?remember_token={{$user['remember_token']}}">User Info</a>
+                <a href="/user/list-topics?remember_token={{$user['remember_token']}}">Test List</a>
+                <a href="/user/contact?remember_token={{$user['remember_token']}}">Contact us</a>
+            </div>
+        </div>
         @yield('page-inner')
     </div>
     <!-- /. PAGE WRAPPER  -->
@@ -38,7 +57,9 @@
 <!-- /. WRAPPER  -->
 <!-- iCheck -->
 <script src="../AdminLTE/plugins/iCheck/icheck.min.js"></script>
+<script src="../js/webview/test.js"></script>
 <script>
+    var user = <?php echo json_encode($user); ?>;
     $(function () {
         $('input').iCheck({
             checkboxClass: 'icheckbox_square-blue',
@@ -46,6 +67,15 @@
             increaseArea: '20%' /* optional */
         });
     });
+    /* Toggle between showing and hiding the navigation menu links when the user clicks on the hamburger menu / bar icon */
+    function myFunction() {
+        var x = document.getElementById("myLinks");
+        if (x.style.display === "block") {
+            x.style.display = "none";
+        } else {
+            x.style.display = "block";
+        }
+    }
 </script>
 @yield('bottom-script')
 </body>

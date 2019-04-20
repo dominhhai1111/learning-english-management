@@ -83,8 +83,11 @@
             @endforeach
         </div>
     </div>
+    <script>
+        var test = <?php echo json_encode($test); ?>;
+    </script>
 @endsection
 
 @section('bottom-script')
-    <script src="../js/tests/test.js"></script>
+
 @endsection

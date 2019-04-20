@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Questions;
 use App\Tests;
 use App\User;
+use App\UserTest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,6 +17,7 @@ class TestsController extends Controller
         $this->tests = new Tests();
         $this->questions = new Questions();
         $this->user = new User();
+        $this->userTest = new UserTest();
 
         $rememberToken = $request->query('remember_token');
         if (!empty($rememberToken)) {
@@ -28,6 +30,7 @@ class TestsController extends Controller
     {
         $topicId = $request->query('topic-id');
         $tests = $this->tests->where(['topic_id' => $topicId])->get()->toArray();
+        $tests = $this->formatTest($tests);
 
         $params = [];
         $params['tests'] = $tests;
@@ -46,7 +49,12 @@ class TestsController extends Controller
             $render = 'webview/user/testPhotograph';
         }
 
-        return view($render, ['test' => $test, 'questions' => $questions]);
+        $params = [];
+        $params['test'] = $test;
+        $params['questions'] = $questions;
+        $params['user'] = !empty(Auth::user()) ? Auth::user() : [];
+
+        return view($render, $params);
     }
 
     private function getFullChildrenQuestion($questions) {
@@ -59,5 +67,42 @@ class TestsController extends Controller
         }
 
         return $formatQuestions;
+    }
+
+    private function formatTest($tests) {
+        if (empty($tests)) return NULL;
+
+        $user = Auth::user();
+
+        foreach ($tests as $key => $test) {
+            //Get totalScore
+            $totalScore = 0;
+            $questions = $this->questions->getQuestionsOfTest($test['questions']);
+            $questions = $this->getFullChildrenQuestion($questions);
+
+            foreach ($questions as $question) {
+                if (!empty($question["children"])) {
+                    $totalScore += sizeof($question["children"]);
+                } else {
+                    $totalScore += 1;
+                }
+            }
+
+            $tests[$key]['total_score'] = $totalScore;
+
+            //Get user test record
+            $where = [
+                "user_id"   => $user['id'],
+                "test_id"   => $test['id'],
+            ];
+            $userTestRecord = $this->userTest->where($where)->first();
+            if (!empty($userTestRecord)) {
+                $tests[$key]['highest_score'] = $userTestRecord['score'];
+                $tests[$key]['time'] = $userTestRecord['time'];
+                $tests[$key]['record_created'] = date_format($userTestRecord['updated_at'], 'Y-m-d h:i:s');
+            }
+        }
+
+        return $tests;
     }
 }

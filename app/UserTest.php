@@ -8,5 +8,5 @@ class UserTest extends Model
 {
     public $timestamps = true;
     protected $table = 'user_test';
-    protected $fillable = ['created_ad', 'updated_at'];
+    protected $fillable = ['user_id', 'test_id', 'score', 'time', 'created_ad', 'updated_at'];
 }

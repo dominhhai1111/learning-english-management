@@ -27,4 +27,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function updateMemberScores($userId)
+    {
+        $userTest = new UserTest();
+        $memberScores = $userTest->where(["user_id" => $userId])->sum("score");
+        
+        if (!empty($memberScores)) {
+            $this->where(["id" => $userId])->update(['scores' => $memberScores]);
+        }
+    }
 }
