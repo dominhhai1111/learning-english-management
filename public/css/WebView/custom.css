@@ -1,3 +1,7 @@
+span {
+    font-size: 15px;
+}
+
 /* Style the navigation menu */
 .topnav {
     overflow: hidden;
@@ -97,4 +101,28 @@
 .user-info-screen .user-info-area {
     font-size: 15px;
     padding-top: 20px;
+}
+
+.contact-screen {
+    padding-top: 15px;
+}
+
+.contact-screen .btn-add {
+
+}
+
+.contact-screen .list-conversation {
+    margin: 20px 0;
+}
+
+.create-conversation-screen {
+    padding-top: 15px;
+}
+
+.create-conversation-screen .conversation-area {
+    margin-top: 20px;
+}
+
+.create-conversation-screen .conversation-area .direct-chat-messages{
+    min-height: 400px;
 }

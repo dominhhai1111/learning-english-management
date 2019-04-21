@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\ConversationLines;
+use App\Conversations;
 use App\User;
 use App\UserTest;
 use Illuminate\Http\Request;
 use App\Topics;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class AppApiController extends Controller
 {
@@ -19,6 +20,8 @@ class AppApiController extends Controller
         $this->topics = new Topics();    
         $this->users = new User();
         $this->userTest = new UserTest();
+        $this->conversations = new Conversations();
+        $this->conversationLines = new ConversationLines();
     }
 
     public function getAllTopics()
@@ -119,6 +122,63 @@ class AppApiController extends Controller
         }
 
         $this->users->updateMemberScores($userId);
+
+        return response()->json($result);
+    }
+
+    public function updateConversation(Request $request)
+    {
+        $data = $request->all();
+        $lastTime = !empty($data['last_time']) ? $data['last_time'] : 0;
+
+        $chatId = !empty($data['chat_id']) ? $data['chat_id'] : '';
+
+        $result = [
+            'hasNew'    => false,
+            'new_lines' => []
+        ];
+
+        $conversationLines = $this->conversationLines
+            ->where(['chat_id' => $chatId])
+            ->where('created_at', '>', $lastTime)
+            ->get();
+        
+        if (!empty($conversationLines)) {
+            $result = [
+                'hasNew'    => true,
+                'new_lines' => $conversationLines,
+                'last_time' => $conversationLines[sizeof($conversationLines) - 1]['created_at']
+            ];
+        }
+
+        return response()->json($result);
+    }
+
+    public function sendConversation(Request $request)
+    {
+        $data = $request->all();
+        $userId = !empty($data['user_id']) ? $data['user_id'] : '';
+        $chatId = !empty($data['chat_id']) ? $data['chat_id'] : '';
+        $content = !empty($data['content']) ? $data['content'] : '';
+
+        $result = [
+            'status'    => 'fail',
+            'message'   => 'Send Failed'
+        ];
+
+        $newData = [
+            'user_id'   => $userId,
+            'chat_id'   => $chatId,
+            'content'   => $content
+        ];
+        $conversationLine = $this->conversationLines->create($newData);
+
+        if (!empty($conversationLine)) {
+            $result = [
+                'status'    => 'success',
+                'message'   => 'Send success'
+            ];
+        }
 
         return response()->json($result);
     }
