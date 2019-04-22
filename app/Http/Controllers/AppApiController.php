@@ -142,8 +142,8 @@ class AppApiController extends Controller
             ->where(['chat_id' => $chatId])
             ->where('created_at', '>', $lastTime)
             ->get();
-        
-        if (!empty($conversationLines)) {
+
+        if (!empty($conversationLines) && sizeof($conversationLines) > 0) {
             $result = [
                 'hasNew'    => true,
                 'new_lines' => $conversationLines,
@@ -167,11 +167,16 @@ class AppApiController extends Controller
         ];
 
         $newData = [
-            'user_id'   => $userId,
             'chat_id'   => $chatId,
             'content'   => $content
         ];
+
+        if (!empty($userId)) {
+            $newData['user_id'] = $userId;
+        }
+        
         $conversationLine = $this->conversationLines->create($newData);
+        $this->conversations->where(['id' => $chatId])->update(['updated_at' => new \DateTime()]);
 
         if (!empty($conversationLine)) {
             $result = [

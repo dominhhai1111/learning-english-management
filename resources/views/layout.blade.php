@@ -13,11 +13,19 @@
 	<!-- GOOGLE FONTS-->
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 
+	<link rel="stylesheet" href="../AdminLTE/bower_components/bootstrap/dist/css/bootstrap.min.css">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="../AdminLTE/bower_components/font-awesome/css/font-awesome.min.css">
+	<!-- Ionicons -->
+	<!-- Ionicons -->
+	<link rel="stylesheet" href="../AdminLTE/bower_components/Ionicons/css/ionicons.min.css">
+	<!-- Theme style -->
+	<link rel="stylesheet" href="../AdminLTE/dist/css/AdminLTE.min.css">
+	<!-- iCheck -->
+	<link rel="stylesheet" href="../AdminLTE/plugins/iCheck/square/blue.css">
 	@yield('head-script')
 </head>
 <body>
-
-
 
 <div id="wrapper">
 	<div class="navbar navbar-inverse navbar-fixed-top">
@@ -54,6 +62,9 @@
 				<li>
 					<a href="/questions/list"><i class="fa fa-table "></i>Questions  <span class="badge">Included</span></a>
 				</li>
+				<li>
+					<a href="/conversations/list"><i class="fa fa-table "></i>Conversations  <span class="badge">Included</span></a>
+				</li>
 			</ul>
 		</div>
 
@@ -84,7 +95,7 @@
 <!-- CUSTOM SCRIPTS -->
 <script src="../js/custom.js"></script>
 <script src="../AdminLTE/js/adminlte.min.js"></script>
-<script src="../js/app.js"></script>
+{{--<script src="../js/app.js"></script>--}}
 {{--<script src="../js/custom.js"></script>--}}
 @yield('bottom-script')
 </body>

@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 21/4/2019
- * Time: 8:13 PM
- */
 
-namespace App\Http\Controllers\WebView;
+namespace App\Http\Controllers;
 
 use App\ConversationLines;
 use App\Conversations;
@@ -23,48 +17,31 @@ class ConversationController extends Controller
         $this->users = new User();
         $this->conversations = new Conversations();
         $this->conversationLines = new ConversationLines();
-        $rememberToken = $request->query('remember_token');
-        if (!empty($rememberToken)) {
-            $user = $this->users->where(['remember_token' => $rememberToken])->first();
-            Auth::setUser($user);
-        }
     }
-
-    public function contact(Request $request)
+    
+    public function listConversations()
     {
-        $user = Auth::user();
-        $conversations = $this->conversations->where(['user_id' => $user['id']])->get();
+        $conversations = $this->conversations->orderBy('updated_at', 'desc')->get();
         $conversations = $this->formatConversations($conversations);
-        
+//dd($conversations);
         $params = [];
-        $params['user'] = !empty(Auth::user()) ? Auth::user() : [];
         $params['conversations'] = !empty($conversations) ? $conversations : [];
 
-        return View::make('webview/user/contact', $params);
+        return View::make('conversations/list', $params);
     }
 
-    public function start(Request $request)
+    public function edit(Request $request)
     {
         $conversationId = $request->query('id');
-        $user = Auth::user();
-        if (empty($conversationId)) {
-            $newData = [
-                'user_id'   => $user['id'],
-                'status'    => FLAG_ON
-            ];
-            $conversation = $this->conversations->create($newData);
-            $conversationLines = [];
-        } else {
-            $conversation = $this->conversations->where(['id' => $conversationId])->first();
-            $conversationLines = $this->conversationLines->where(['chat_id' => $conversationId])->get();
-        }
+       
+        $conversation = $this->conversations->where(['id' => $conversationId])->first();
+        $conversationLines = $this->conversationLines->where(['chat_id' => $conversationId])->get();
         
         $params = [];
-        $params['user'] = !empty(Auth::user()) ? Auth::user() : [];
         $params['conversation'] = $conversation;
         $params['lines'] = $conversationLines;
 
-        return View::make('webview/user/createConversation', $params);
+        return View::make('conversations/edit', $params);
     }
 
     private function formatConversations($conversations)
@@ -74,6 +51,8 @@ class ConversationController extends Controller
             $conversationLines = $this->conversationLines->where(['chat_id' => $conversation['id']])->orderBy('id', 'DESC')->get()->toArray();
             if (!empty($conversationLines)) {
                 $conversation['last_message'] = $conversationLines[0];
+                $user = $this->users->where(['id' => $conversation['user_id']])->first();
+                $conversation['user_name'] = $user['name'];
                 $formatConversations[] = $conversation;
             }
         }
