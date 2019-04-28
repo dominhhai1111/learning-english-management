@@ -9,15 +9,18 @@
 		</div>
 		<hr />
 		<div class="row" style="padding: 0 60px">
-			<div class="col-xs-3 col-xs-push-7">
+			<div class="col-xs-3 col-xs-push-5">
 				<select name="add_topic_id" class="form-control" id="addTopicId">
 					@foreach ($topics as $topic)
 						<option value="{{$topic['id']}}">{{$topic['name']}}</option>
 					@endforeach
 				</select>
 			</div>
-			<div class="col-xs-2 col-xs-push-7">
+			<div class="col-xs-2 col-xs-push-5">
 				<button type="button" class="btn btn-primary btn-add" onclick="addQuestion()">Add</button>
+			</div>
+			<div class="col-xs-2 col-xs-push-5">
+				<button type="button" class="btn btn-primary btn-add" onclick="importQuestions()">Import</button>
 			</div>
 		</div>
 		<div class="row">

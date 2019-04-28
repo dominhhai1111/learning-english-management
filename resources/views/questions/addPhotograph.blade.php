@@ -1,7 +1,7 @@
 @extends('questions.add')
 
 @section('title')
-    <h2>Add new photograph question</h2>
+    <h2>Add</h2>
 @endsection
 
 
@@ -9,7 +9,7 @@
 <!-- form start -->
 <form role="form" method="post" action="" enctype="multipart/form-data">
     @csrf <!-- {{ csrf_field() }} -->
-    <input type="hidden" name="questionType" value="photograph">
+    <input type="hidden" name="questionType" value="{{PHOTOGRAPH}}">
     <div class="box-body">
         <div class="form-group">
             <label for="name">Topic</label>

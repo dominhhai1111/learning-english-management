@@ -23,12 +23,23 @@ class QuestionsController extends Controller
     }
 
     public function addAction(Request $request) {
+
+//        dd($request->all());
+        $topicId = $request->query('topic_id');
+        $view = "questions.add" . $this->getTopicView($topicId);
         $topics = $this->topics->all()->toArray();
 
         if ($request->method() == "POST") {
             $questionType = $request->input('questionType');
-            if (!empty($questionType) & $questionType == 'photograph') {
-                $result = $this->createPhotographQuestion($request);
+            if (!empty($questionType)) {
+                switch ($questionType) {
+                    case $questionType == PHOTOGRAPH:
+                        $result = $this->createPhotographQuestion($request);
+                        break;
+                    case $questionType == INCOMPLETE_SENTENCES:
+                        $result = $this->createIncompleteSentencesQuestion($request);
+                        break;
+                }
             }
 
             if ($result) {
@@ -36,27 +47,37 @@ class QuestionsController extends Controller
             }
         }
 
-        return view('questions.addPhotograph', ['topics' => $topics]);
+        return view($view, ['topics' => $topics]);
     }
 
     public function editAction(Request $request) {
         $id = $request->query('id');
         $question = $this->questions->where('id', '=', $id)->first()->toArray();
         $topic = $this->topics->where(['id' => $question['topic_id']])->first()->toArray();
-        $childrenQuestions = $this->questions->where(['parent_id' => $id])->get()->toArray();
-        if ($question['topic_id'] == 1) {
-            $view = 'questions.editPhotograph';
+        $childrenQuestions = $this->questions->where(['parent_id' => $id])->get();
+        $question['answers'] = (array)json_decode($question['answers']);
+//        dd($question);
+        if (!empty($childrenQuestions)) {
+            $childrenQuestions = $childrenQuestions->toArray();
+        } else {
+            $childrenQuestions = [];
         }
+        $view = "questions.edit" . $this->getTopicView($question['topic_id']);
         
         if ($request->method() == "POST") {
             $questionType = $request->input('questionType');
-            if (!empty($questionType) & $questionType == 'photograph') {
-                $result = $this->updatePhotographQuestion($request);
-                redirect($request->getUri());
+            if (!empty($questionType)) {
+                switch ($questionType) {
+                    case $questionType == PHOTOGRAPH:
+                        $result = $this->updatePhotographQuestion($request);
+                        break;
+                    case $questionType == INCOMPLETE_SENTENCES:
+                        $result = $this->updateCompleteSentences($request);
+                        break;
+                }
+
             }
-            if ($result) {
-                return redirect('questions/list');
-            }
+            return redirect('questions/list');
         }
 
         return view($view, ['question' => $question, 'topic' => $topic, 'childrenQuestions' => $childrenQuestions]);
@@ -65,10 +86,10 @@ class QuestionsController extends Controller
     public function deleteAction(Request $request)
     {
         $id = $request->query('id');
-        $result = $this->tests->where('id', $id)->delete();
+        $result = $this->questions->where('id', $id)->delete();
 
         if ($result) {
-            return redirect('tests/list');
+            return redirect('questions/list');
         }
     }
 
@@ -129,14 +150,11 @@ class QuestionsController extends Controller
 
     private function updatePhotographQuestion($request) {
         $params = $request->all();
-//        dd($params);
         $parentQuestion = $this->questions->where('id', '=', $params['id'])->first()->toArray();
-//        dd($parentQuestion);
         $parentData = [];
         $parentData['description'] = $params['description'];
         $parentData['level'] = $params['level'];
         $childrenQuestions = $params['questions'];
-//        dd($childrenQuestions);
         if (!empty($childrenQuestions)) {
             foreach ($childrenQuestions as $key =>$question) {
                 if (strpos($key, 'new') !== false) {
@@ -163,7 +181,6 @@ class QuestionsController extends Controller
                         $imageLink = $parentQuestion['image_link'] . '/' . $file->getClientOriginalName();
                         $savedImageLink = $file->move($parentQuestion['image_link'], $file->getClientOriginalName());
                     }
-//dd($key);
                     $questionData = [];
                     $questionData['updated_at'] = new \DateTime();
                     if (!empty($imageLink)) $questionData['image_link'] = $imageLink;
@@ -175,5 +192,55 @@ class QuestionsController extends Controller
         }
 
         $updatedParentQuestion = $this->questions->where('id', $params['id'])->update($parentData);
+    }
+
+    private function createIncompleteSentencesQuestion($request) {
+        $params = $request->all();
+
+        $questionData = [
+            'topic_id'          => INCOMPLETE_SENTENCES,
+            'parent_id'         => 0,
+            'level'             => !empty($params['level']) ? $params['level'] : 1,
+            'question'          => !empty($params['question']) ? $params['question'] : '',
+            'answers'           => !empty($params['answers']) ? json_encode($params['answers']) : '',
+            'description'       => !empty($params['description']) ? $params['description'] : '',
+            'created_at'        => new \DateTime(),
+            'updated_at'        => new \DateTime(),
+            'correct_answer'    => !empty($params['correct_answer']) ? $params['correct_answer'] : 'A',
+        ];
+
+        $savedQuestionId = $this->questions->insertGetId($questionData);
+    }
+
+    private function updateCompleteSentences($request)
+    {
+        $params = $request->all();
+        $id = $request->query('id');
+
+        $questionData = [
+            'topic_id'          => INCOMPLETE_SENTENCES,
+            'parent_id'         => 0,
+            'level'             => !empty($params['level']) ? $params['level'] : 1,
+            'question'          => !empty($params['question']) ? $params['question'] : '',
+            'answers'           => !empty($params['answers']) ? json_encode($params['answers']) : '',
+            'description'       => !empty($params['description']) ? $params['description'] : '',
+            'created_at'        => new \DateTime(),
+            'updated_at'        => new \DateTime(),
+            'correct_answer'    => !empty($params['correct_answer']) ? $params['correct_answer'] : 'A',
+        ];
+
+        $updatedQuestion = $this->questions->where('id', $id)->update($questionData);
+    }
+
+    private function getTopicView($topicId) {
+        switch ($topicId) {
+            case 1: return "Photograph";
+            case 2: return "QuestionResponse";
+            case 3: return "ShortConversations";
+            case 4: return "ShortTalks";
+            case 5: return "IncompleteSentences";
+            case 6: return "TextCompletion";
+            case 7: return "ReadingComprehension";
+        }
     }
 }
