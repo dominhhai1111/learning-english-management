@@ -18,8 +18,8 @@ class Questions extends Model
     protected $fillable = ['created_ad', 'updated_at'];
 
     public function getQuestionList() {
-        $questions = $this->join('topics', 'questions.topic_id', '=', 'topics.id')
-            ->select('questions.*', 'topics.name as topic_name')
+        $questions = $this->join('parts', 'questions.part_id', '=', 'parts.id')
+            ->select('questions.*', 'parts.name as topic_name')
             ->where(['parent_id' => 0])
             ->get()
             ->toArray();
@@ -31,8 +31,8 @@ class Questions extends Model
         if (empty($questionIds)) return NULL;
 
         $questionIds = \GuzzleHttp\json_decode($questionIds);
-        $questions = $this->join('topics', 'questions.topic_id', '=', 'topics.id')
-                        ->select('questions.*', 'topics.name as topic_name')
+        $questions = $this->join('parts', 'questions.part_id', '=', 'parts.id')
+                        ->select('questions.*', 'parts.name as topic_name')
                         ->whereIn ('questions.id', $questionIds)
                         ->get()
                         ->toArray();
@@ -41,6 +41,6 @@ class Questions extends Model
     }
     
     public function topic() {
-        return $this->belongsTo('topics');
+        return $this->belongsTo('parts');
     }
 }

@@ -36,7 +36,7 @@ class TopicsController extends Controller
                 'updated_at' => new \DateTime()
             ]);
             if ($result) {
-                return redirect('topics/list');
+                return redirect(route('part-list'));
             }
         }
         return view('topics.add');
@@ -66,7 +66,7 @@ class TopicsController extends Controller
             }
 
             if ($result) {
-                return redirect('topics/list');
+                return redirect(route('part-list'));
             }
         }
 
@@ -79,7 +79,7 @@ class TopicsController extends Controller
         $result = $this->topics->where('id', $id)->delete();
 
         if ($result) {
-            return redirect('topics/list');
+            return redirect(route('part-list'));
         }
     }
 }

@@ -37,7 +37,7 @@ class TestsController extends Controller
 
             $result = $this->tests->insert([
                 'name' => $name,
-                'topic_id' => $topic,
+                'part_id' => $topic,
                 'image_link' => $imageLink,
                 'created_at' => new \DateTime(),
                 'updated_at' => new \DateTime()
@@ -53,7 +53,7 @@ class TestsController extends Controller
     public function editAction(Request $request) {
         $id = $request->query('id');
         $test = $this->tests->getTestById($id);
-        $topic = $this->topics->where('id', $test['topic_id'])->first();
+        $topic = $this->topics->where('id', $test['part_id'])->first();
         $questions = !empty($test['questions']) ? $this->questions->getQuestionsOfTest($test['questions']) : [];
         $questions = !empty($questions) ? $questions : [];
 

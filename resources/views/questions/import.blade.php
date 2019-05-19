@@ -11,8 +11,8 @@
         @csrf <!-- {{ csrf_field() }} -->
         <div class="box-body">
             <div class="form-group">
-                <label for="name">Topic</label>
-                <select name="topic_id" class="form-control" id="addTopicId">
+                <label for="name">Part</label>
+                <select name="part_id" class="form-control" id="addTopicId">
                     @foreach ($topics as $topic)
                         <option value="{{$topic['id']}}">{{$topic['name']}}</option>
                     @endforeach

@@ -12,7 +12,7 @@
     <input type="hidden" name="questionType" value="{{PHOTOGRAPH}}">
     <div class="box-body">
         <div class="form-group">
-            <label for="name">Topic</label>
+            <label for="name">Part</label>
             <input type="text" name="topic" class="form-control" value="Photograph" readonly>
         </div>
         <div class="form-group">

@@ -18,10 +18,10 @@ Route::get('/', function () {
 Route::get('/', 'DashboardController@index');
 Route::get('/dashboard', 'DashboardController@index');
 
-Route::get('/parts/list', 'TopicsController@listAction');
-Route::any('/topics/add', 'TopicsController@addAction');
-Route::any('/topics/edit', 'TopicsController@editAction');
-Route::any('/topics/delete', 'TopicsController@deleteAction');
+Route::get('/parts/list', 'TopicsController@listAction')->name('part-list');
+Route::any('/parts/add', 'TopicsController@addAction');
+Route::any('/parts/edit', 'TopicsController@editAction');
+Route::any('/parts/delete', 'TopicsController@deleteAction');
 
 Route::get('/tests/list', 'TestsController@listAction');
 Route::any('/tests/add', 'TestsController@addAction');

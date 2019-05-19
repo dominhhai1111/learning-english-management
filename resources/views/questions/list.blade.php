@@ -31,7 +31,7 @@
 					<tr>
 						<th>ID</th>
 						<th>Descriptions</th>
-						<th>Topic</th>
+						<th>Part</th>
 						<th>Level</th>
 						<th>Action</th>
 					</tr>

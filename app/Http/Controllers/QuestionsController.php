@@ -30,7 +30,7 @@ class QuestionsController extends Controller
 
         if ($request->method() == "POST") {
             $data = $request->all();
-            ImportService::importQuestions($data['file'], $data['topic_id']);
+            ImportService::importQuestions($data['file'], $data['part_id']);
             return redirect('questions/list');
         }
 
@@ -40,7 +40,7 @@ class QuestionsController extends Controller
     public function addAction(Request $request) {
 
 //        dd($request->all());
-        $topicId = $request->query('topic_id');
+        $topicId = $request->query('part_id');
         $view = "questions.add" . $this->getTopicView($topicId);
         $topics = $this->topics->all()->toArray();
 
@@ -68,7 +68,7 @@ class QuestionsController extends Controller
     public function editAction(Request $request) {
         $id = $request->query('id');
         $question = $this->questions->where('id', '=', $id)->first()->toArray();
-        $topic = $this->topics->where(['id' => $question['topic_id']])->first()->toArray();
+        $topic = $this->topics->where(['id' => $question['part_id']])->first()->toArray();
         $childrenQuestions = $this->questions->where(['parent_id' => $id])->get();
         $question['answers'] = (array)json_decode($question['answers']);
 //        dd($question);
@@ -77,7 +77,7 @@ class QuestionsController extends Controller
         } else {
             $childrenQuestions = [];
         }
-        $view = "questions.edit" . $this->getTopicView($question['topic_id']);
+        $view = "questions.edit" . $this->getTopicView($question['part_id']);
         
         if ($request->method() == "POST") {
             $questionType = $request->input('questionType');
@@ -129,7 +129,7 @@ class QuestionsController extends Controller
 
         //create parent question
         $parentQuestionData = [
-            'topic_id'      => 1,
+            'part_id'      => 1,
             'parent_id'     => 0,
             'level'         => !empty($request->input('level')) ? $request->input('level') : 1,
             'description'   => !empty($request->input('description')) ? $request->input('description') : '',
@@ -149,7 +149,7 @@ class QuestionsController extends Controller
             }
 
             $questionData = [
-                'topic_id'          => 1,
+                'part_id'          => 1,
                 'parent_id'         => $savedParentQuestionId,
                 'image_link'        => $imageLink,
                 'created_at'        => new \DateTime(),
@@ -181,7 +181,7 @@ class QuestionsController extends Controller
                     }
 
                     $questionData = [
-                        'topic_id'      => 1,
+                        'part_id'      => 1,
                         'parent_id'     => $parentQuestion['id'],
                         'image_link'    => $imageLink,
                         'created_at'    => new \DateTime(),
@@ -213,7 +213,7 @@ class QuestionsController extends Controller
         $params = $request->all();
 
         $questionData = [
-            'topic_id'          => INCOMPLETE_SENTENCES,
+            'part_id'          => INCOMPLETE_SENTENCES,
             'parent_id'         => 0,
             'level'             => !empty($params['level']) ? $params['level'] : 1,
             'question'          => !empty($params['question']) ? $params['question'] : '',
@@ -233,7 +233,7 @@ class QuestionsController extends Controller
         $id = $request->query('id');
 
         $questionData = [
-            'topic_id'          => INCOMPLETE_SENTENCES,
+            'part_id'          => INCOMPLETE_SENTENCES,
             'parent_id'         => 0,
             'level'             => !empty($params['level']) ? $params['level'] : 1,
             'question'          => !empty($params['question']) ? $params['question'] : '',

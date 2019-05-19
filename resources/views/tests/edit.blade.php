@@ -20,15 +20,15 @@
                         </div>
                         <div class="form-group">
                             <label for="name">Topic</label>
-                            <input type="text" value="{{$topic['name']}}" readonly>
+                            <input type="text" class="form-control" value="{{$topic['name']}}" readonly>
                         </div>
                         <div class="form-group">
                             <label for="image_link">Image input</label>
-                            <input type="file" class="test_image" name="image" id="inputImage" onchange="readURL(this)">
-                            <img style="width: 300px; height: 200px" class="test_image_show" src="{{URL::to('/') . '/' . $test['image_link']}}" alt="your image" />
+                            <input type="file" class="test_image form-control" name="image" id="inputImage" onchange="readURL(this)">
+                            <img style="width: 300px; height: 200px" class="test_image_show" id="inputImageShow" src="{{URL::to('/') . '/' . $test['image_link']}}" alt="your image" />
                         </div>
                         <div class="form-group">
-                            <button type="button" class="btn btn-info btn-add-question">Add question</button>
+                            <button type="button" class="btn btn-info btn-add-question ">Add question</button>
                             <input type="number" class="question_id">
                         </div>
                         <div class="form-group">
@@ -54,7 +54,7 @@
                                         <thead>
                                         <tr>
                                             <th>Order ID</th>
-                                            <th>Topic</th>
+                                            <th>Part</th>
                                             <th>Level</th>
                                             <th>Action</th>
                                         </tr>
@@ -89,12 +89,12 @@
     <script>
         var myconf = <?php echo json_encode($myconf); ?>;
         function readURL(input) {
-            var className = input.className + '_show';
+            var id = input.id + 'Show';
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
 
                 reader.onload = function(e) {
-                    $('.' + className).attr('src', e.target.result);
+                    $('#' + id).attr('src', e.target.result);
                 };
 
                 reader.readAsDataURL(input.files[0]);

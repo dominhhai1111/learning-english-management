@@ -10,7 +10,7 @@ function confirmDeleteTest(id) {
 
 function addQuestion() {
     var addTopicId = $('#addTopicId').val();
-    location.href='/questions/add?topic_id=' + addTopicId;
+    location.href='/questions/add?part_id=' + addTopicId;
 }
 
 function importQuestions() {

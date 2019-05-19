@@ -18,7 +18,7 @@
                             <input type="text" name="name" class="form-control" id="name" placeholder="Enter name">
                         </div>
                         <div class="form-group">
-                            <label for="name">Topic</label>
+                            <label for="name">Part</label>
                             <select name="topic" class="form-control">
                                 @foreach ($topics as $topic)
                                     <option value="{{$topic['id']}}">{{$topic['name']}}</option>

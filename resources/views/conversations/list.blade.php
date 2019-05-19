@@ -4,7 +4,7 @@
     <div id="page-inner">
         <div class="row">
             <div class="col-lg-12">
-                <h2>Conversations List</h2>
+                <h2>Conversation List</h2>
             </div>
         </div>
         <div class="row">

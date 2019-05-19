@@ -4,7 +4,7 @@
 	<div id="page-inner">
 		<div class="row">
 			<div class="col-lg-12">
-				<h2>Tests List</h2>
+				<h2>Test List</h2>
 			</div>
 		</div>
 		<hr />
@@ -21,7 +21,7 @@
 					<tr>
 						<th>ID</th>
 						<th>Test Name</th>
-						<th>Topic Name</th>
+						<th>Part Name</th>
 						<th>Action</th>
 					</tr>
 					</thead>

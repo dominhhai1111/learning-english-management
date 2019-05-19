@@ -6,9 +6,9 @@ use App\Questions;
 
 class ImportService
 {
-    public static function importQuestions($file, $topicId)
+    public static function importQuestions($file, $partId)
     {
-        switch ($topicId) {
+        switch ($partId) {
             case INCOMPLETE_SENTENCES: self::importIncompleteSentences($file);
         }
     }
@@ -80,7 +80,7 @@ class ImportService
             if (!empty($formatQuestions)) {
                 foreach ($formatQuestions as $key => $question) {
                     $questionData[] = [
-                        'topic_id'          => INCOMPLETE_SENTENCES,
+                        'part_id'           => INCOMPLETE_SENTENCES,
                         'parent_id'         => 0,
                         'level'             => 1,
                         'question'          => !empty($question['question']) ? $question['question'] : '',
