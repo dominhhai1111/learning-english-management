@@ -54,7 +54,7 @@
 					<a href="/" ><i class="fa fa-desktop "></i>Dashboard <span class="badge">Included</span></a>
 				</li>
 				<li>
-					<a href="/topics/list"><i class="fa fa-table "></i>Topics  <span class="badge">Included</span></a>
+					<a href="/parts/list"><i class="fa fa-table "></i>Parts  <span class="badge">Included</span></a>
 				</li>
 				<li>
 					<a href="/tests/list"><i class="fa fa-table "></i>Tests  <span class="badge">Included</span></a>

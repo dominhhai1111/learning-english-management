@@ -15,6 +15,8 @@ class TestsController extends Controller
         $this->tests = new Tests();
         $this->topics = new Topics();
         $this->questions = new Questions();
+
+        $this->myconf = config("myconf");
     }
 
     public function listAction() {
@@ -82,7 +84,7 @@ class TestsController extends Controller
             }
         }
 
-        return view('tests.edit', ['test' => $test, 'topic' => $topic, 'questions' => $questions]);
+        return view('tests.edit', ['test' => $test, 'topic' => $topic, 'questions' => $questions, 'myconf' => $this->myconf]);
     }
 
     public function deleteAction(Request $request)
@@ -111,6 +113,39 @@ class TestsController extends Controller
         return response()->json($question);
     }
 
+    public function getRandomQuestions(Request $request) {
+        $data = $request->all();
+        $easyQuestionNumber = !empty($data['easyQuestionNumber']) ? $data['easyQuestionNumber'] : 0;
+        $mediumQuestionNumber = !empty($data['mediumQuestionNumber']) ? $data['mediumQuestionNumber'] : 0;
+        $hardQuestionNumber = !empty($data['hardQuestionNumber']) ? $data['hardQuestionNumber'] : 0;
+
+        $easyQuestions = $this->questions->where('level', '=', 1)->orWhere('level', '=', NULL)->get()->toArray();
+        if (sizeof($easyQuestions) > $easyQuestionNumber && !empty($easyQuestionNumber)) {
+            $easyQuestionIds = array_rand($easyQuestions, $easyQuestionNumber);
+            foreach ($easyQuestionIds as $questionId) {
+                $questions[] = $easyQuestions[$questionId];
+            }
+        }
+
+        $mediumQuestions = $this->questions->where('level', '=', 2)->get()->toArray();
+        if (sizeof($mediumQuestions) > $mediumQuestionNumber  && !empty($mediumQuestionNumber)) {
+            $mediumQuestionIds = array_rand($mediumQuestions, $mediumQuestionNumber);
+            foreach ($mediumQuestionIds as $questionId) {
+                $questions[] = $mediumQuestions[$questionId];
+            }
+        }
+
+        $hardQuestions = $this->questions->where('level', '=', 3)->get()->toArray();
+        if (sizeof($hardQuestions) > $hardQuestionNumber  && !empty($hardQuestionNumber)) {
+            $hardQuestionIds = array_rand($hardQuestions, $hardQuestionNumber);
+            foreach ($hardQuestionIds as $questionId) {
+                $questions[] = $hardQuestions[$questionId];
+            }
+        }
+
+        return response()->json($questions);
+    }
+
     private function getFullChildrenQuestion($questions) {
         if (empty($questions)) return NULL;
 
@@ -122,4 +157,5 @@ class TestsController extends Controller
 
         return $formatQuestions;
     }
+
 }

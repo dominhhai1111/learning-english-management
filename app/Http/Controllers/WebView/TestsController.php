@@ -43,18 +43,17 @@ class TestsController extends Controller
         $id = $request->query('id');
         $test = $this->tests->getTestById($id);
         $questions = $this->questions->getQuestionsOfTest($test['questions']);
+        $questions = $this->formatQuestions($questions);
         $questions = $this->getFullChildrenQuestion($questions);
-        $render = '';
-        if ($test['topic_id'] == 1) {
-            $render = 'webview/user/testPhotograph';
-        }
+       
+        $view = "webview/user/test" . $this->getTopicView($test['topic_id']);
 
         $params = [];
         $params['test'] = $test;
         $params['questions'] = $questions;
         $params['user'] = !empty(Auth::user()) ? Auth::user() : [];
 
-        return view($render, $params);
+        return view($view, $params);
     }
 
     private function getFullChildrenQuestion($questions) {
@@ -104,5 +103,25 @@ class TestsController extends Controller
         }
 
         return $tests;
+    }
+
+    private function getTopicView($topicId) {
+        switch ($topicId) {
+            case 1: return "Photograph";
+            case 2: return "QuestionResponse";
+            case 3: return "ShortConversations";
+            case 4: return "ShortTalks";
+            case 5: return "IncompleteSentences";
+            case 6: return "TextCompletion";
+            case 7: return "ReadingComprehension";
+        }
+    }
+
+    private function formatQuestions($questions) {
+        foreach ($questions as $key => $question) {
+            $questions[$key]['answers'] = (array)json_decode($questions[$key]['answers']);
+        }
+
+        return $questions;
     }
 }

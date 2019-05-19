@@ -6,6 +6,7 @@ use App\Questions;
 use Illuminate\Http\Request;
 use App\Tests;
 use App\Topics;
+use App\Services\ImportService;
 
 class QuestionsController extends Controller
 {
@@ -20,6 +21,20 @@ class QuestionsController extends Controller
         $topics = $this->topics->all()->toArray();
 
         return view('questions.list', ['topics' => $topics, 'questions' => $questions]);
+    }
+
+    public function importAction(Request $request) {
+        $topics = $this->topics->all()->toArray();
+        $params = [];
+        $params['topics'] = $topics;
+
+        if ($request->method() == "POST") {
+            $data = $request->all();
+            ImportService::importQuestions($data['file'], $data['topic_id']);
+            return redirect('questions/list');
+        }
+
+        return view('questions.import', $params);
     }
 
     public function addAction(Request $request) {

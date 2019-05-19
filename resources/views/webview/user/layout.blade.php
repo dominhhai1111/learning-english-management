@@ -28,8 +28,9 @@
 <body>
 <div>
     <div>
-        <!-- Top Navigation Menu -->
-        <div class="topnav">
+        @if (!empty($user))
+            <!-- Top Navigation Menu -->
+            <div class="topnav">
             <!-- "Hamburger menu" / "Bar icon" to toggle the navigation links -->
             <a href="javascript:void(0);" class="icon" onclick="myFunction()">
                 <i class="fa fa-bars"></i>
@@ -47,6 +48,7 @@
                 <a href="/user/contact?remember_token={{$user['remember_token']}}">Contact us</a>
             </div>
         </div>
+        @endif
         @yield('page-inner')
     </div>
     <!-- /. PAGE WRAPPER  -->
@@ -59,7 +61,7 @@
 <script src="../AdminLTE/plugins/iCheck/icheck.min.js"></script>
 <script src="../js/webview/test.js"></script>
 <script>
-    var user = <?php echo json_encode($user); ?>;
+    var user = <?php echo !empty($user) ? json_encode($user) : '' ?>;
     $(function () {
         $('input').iCheck({
             checkboxClass: 'icheckbox_square-blue',

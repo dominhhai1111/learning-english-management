@@ -49,11 +49,19 @@ function updateConversation() {
 }
 
 function addNewLine(line) {
-    var html = "<div class='direct-chat-msg'>"
+    if (line['user_id']) {
+        var html = "<div class='direct-chat-msg right'>"
+            + "<div class='direct-chat-text' style='margin: 0 0 0 50px'>"
+            + line['content']
+            + "</div>"
+            + "</div>";
+    } else {
+        var html = "<div class='direct-chat-msg'>"
             + "<div class='direct-chat-text' style='margin: 0 50px 0 0'>"
             + line['content']
             + "</div>"
             + "</div>";
+    }
 
     $('.direct-chat-messages').append(html);
 }

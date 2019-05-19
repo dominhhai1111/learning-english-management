@@ -18,7 +18,7 @@ Route::get('/', function () {
 Route::get('/', 'DashboardController@index');
 Route::get('/dashboard', 'DashboardController@index');
 
-Route::get('/topics/list', 'TopicsController@listAction');
+Route::get('/parts/list', 'TopicsController@listAction');
 Route::any('/topics/add', 'TopicsController@addAction');
 Route::any('/topics/edit', 'TopicsController@editAction');
 Route::any('/topics/delete', 'TopicsController@deleteAction');
@@ -29,8 +29,10 @@ Route::any('/tests/edit', 'TestsController@editAction');
 Route::any('/tests/delete', 'TestsController@deleteAction');
 Route::any('/tests/photograph', 'TestsController@testPhotographAction');
 Route::any('/tests/get-question', 'TestsController@getQuestionById');
+Route::any('/tests/get-random-questions', 'TestsController@getRandomQuestions');
 
 Route::get('/questions/list', 'QuestionsController@listAction');
+Route::any('/questions/import', 'QuestionsController@importAction');
 Route::any('/questions/add', 'QuestionsController@addAction');
 Route::any('/questions/edit', 'QuestionsController@editAction');
 Route::any('/questions/delete', 'QuestionsController@deleteAction');

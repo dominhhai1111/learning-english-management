@@ -39,4 +39,8 @@ class Questions extends Model
 
         return $questions;
     }
+    
+    public function topic() {
+        return $this->belongsTo('topics');
+    }
 }

@@ -13,7 +13,7 @@ class DashboardController extends Controller
 //        Mail::send('mail.test', ['test' => 'Test123'], function($message) {
 //            $message->to('nomcbwcz@sharklasers.com')->subject('Test laravel mail');
 //        });
-        dispatch(new SendWelcomeEmail("Hello"));
+//        dispatch(new SendWelcomeEmail("Hello"));
         return view('dashboard');
     }
 }

@@ -12,3 +12,7 @@ function addQuestion() {
     var addTopicId = $('#addTopicId').val();
     location.href='/questions/add?topic_id=' + addTopicId;
 }
+
+function importQuestions() {
+    location.href='/questions/import';
+}

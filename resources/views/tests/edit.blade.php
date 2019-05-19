@@ -31,6 +31,12 @@
                             <button type="button" class="btn btn-info btn-add-question">Add question</button>
                             <input type="number" class="question_id">
                         </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-info btn-random-question">Random question</button>
+                            <input type="number" class="easy_question_number"><span style="margin-right: 5px; margin-left: 5px">Easy</span>
+                            <input type="number" class="medium_question_number"><span style="margin-right: 5px; margin-left: 5px">Medium</span>
+                            <input type="number" class="hard_question_number"><span style="margin-right: 5px; margin-left: 5px">Hard</span>
+                        </div>
                         <div class="box box-info">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Latest Orders</h3>
@@ -48,9 +54,8 @@
                                         <thead>
                                         <tr>
                                             <th>Order ID</th>
-                                            <th>Item</th>
-                                            <th>Status</th>
-                                            <th>Popularity</th>
+                                            <th>Topic</th>
+                                            <th>Level</th>
                                             <th>Action</th>
                                         </tr>
                                         </thead>
@@ -59,9 +64,8 @@
                                             <tr class="question_{{$question['id']}}">
                                                 <input type="hidden" name="questions[]" value="{{$question['id']}}">
                                                 <td>{{$question['id']}}</td>
-                                                <td>{{substr($question['description'], 0, 20)}}</td>
                                                 <td>{{$question['topic_name']}}</td>
-                                                <td>{{$question['level']}}</td>
+                                                <td>{{$myconf['difficulty'][$question['level']]}}</td>
                                                 <td><p class="btn btn-danger" onclick="removeQuestion({{$question['id']}})">Delete</p></td>
                                             </tr>
                                         @endforeach
@@ -83,6 +87,7 @@
         </div>
     </div>
     <script>
+        var myconf = <?php echo json_encode($myconf); ?>;
         function readURL(input) {
             var className = input.className + '_show';
             if (input.files && input.files[0]) {

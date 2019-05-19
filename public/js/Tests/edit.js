@@ -4,6 +4,10 @@ $(document).ready( function () {
     $('.btn-add-question').on('click', function() {
         getQuestionById();
     })
+
+    $('.btn-random-question').on('click', function() {
+        getRandomQuestions();
+    })
 });
 
 function getQuestionById() {
@@ -17,13 +21,36 @@ function getQuestionById() {
     });
 }
 
+function getRandomQuestions() {
+    var easyQuestionNumber = $('.easy_question_number').val();
+    var mediumQuestionNumber = $('.medium_question_number').val();
+    var hardQuestionNumber = $('.hard_question_number').val();
+    $.ajax({
+        type:'GET',
+        url:'/tests/get-random-questions?easyQuestionNumber=' +  easyQuestionNumber,
+        data: {
+            'easyQuestionNumber': easyQuestionNumber,
+            'mediumQuestionNumber': mediumQuestionNumber,
+            'hardQuestionNumber': hardQuestionNumber
+        },
+        success:function(data) {
+            addQuestions(data);
+        }
+    });
+}
+
+function addQuestions(questions) {
+    $.each(questions, function (index, question) {
+        addQuestion(question);
+    });
+}
+
 function addQuestion(question) {
     var html = '<tr class="question_' + question['id'] + '">'
             + '<input type="hidden" name="questions[]" value="' + question['id'] + '">'
             + '<td>' + question['id'] + '</td>'
-            + '<td>'+ question['description'].toString().substr(0, 20) + '</td>'
-            + '<td>'+ question['topic_name'] + '</td>'
-            + '<td>'+ question['level'] + '</td>'
+            + '<td>'+ myconf['topic_types'][question['topic_id']] + '</td>'
+            + '<td>'+ myconf['difficulty'][question['level']] + '</td>'
             + '<td><p class="btn btn-danger" onclick="removeQuestion(' + question['id'] + ')">Delete</p></td>'
             + '</tr>';
 

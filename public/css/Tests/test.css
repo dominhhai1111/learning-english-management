@@ -9,42 +9,46 @@
     min-height: 800px;
 }
 
+.question-area {
+    padding-top: 30px;
+}
+.question-area .question {
+    padding-bottom: 20px;
+}
+
+.question-area .question .choice-area {
+    margin: 0 5px;
+}
+
+.question-area .question .choices .radio-check{
+    color: red;
+}
+
+.question-area .question .choices input{
+    margin: 0 5px 0 0;
+}
+
+.btn-back {
+    width: 60px;
+}
+
+.btn-next {
+    width: 60px;
+}
+
+.choose-questions {
+    padding-bottom: 20px;
+}
+
 .photograph-test .audio-area audio {
     width: 250px;
     height: 30px;
-}
-
-.photograph-test .question-area {
-    padding-top: 30px;
-}
-.photograph-test .question-area .question {
-    padding-bottom: 20px;
 }
 
 .photograph-test .question-area .question .image-area {
     padding-bottom: 10px;
 }
 
-.photograph-test .question-area .question .choice-area {
-    margin: 0 5px;
-}
-
-.photograph-test .question-area .question .choices .radio-check{
-    color: red;
-}
-
-.photograph-test .question-area .question .choices input{
-    margin: 0 5px 0 0;
-}
-
-.photograph-test .btn-back {
-    width: 60px;
-}
-
-.photograph-test .btn-next {
-    width: 60px;
-}
-
-.photograph-test .choose-questions {
-    padding-bottom: 20px;
+.incomplete-sentences-test .question-area .question {
+    margin: 0;
 }

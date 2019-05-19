@@ -17,7 +17,7 @@ class AppApiController extends Controller
      */
     public function __construct()
     {
-        $this->topics = new Topics();    
+        $this->topics = new Topics();
         $this->users = new User();
         $this->userTest = new UserTest();
         $this->conversations = new Conversations();
