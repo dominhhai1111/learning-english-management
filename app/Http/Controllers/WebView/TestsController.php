@@ -29,7 +29,7 @@ class TestsController extends Controller
     public function listTests(Request $request)
     {
         $topicId = $request->query('topic-id');
-        $tests = $this->tests->where(['topic_id' => $topicId])->get()->toArray();
+        $tests = $this->tests->where(['part_id' => $topicId])->get()->toArray();
         $tests = $this->formatTest($tests);
 
         $params = [];
@@ -46,7 +46,7 @@ class TestsController extends Controller
         $questions = $this->formatQuestions($questions);
         $questions = $this->getFullChildrenQuestion($questions);
        
-        $view = "webview/user/test" . $this->getTopicView($test['topic_id']);
+        $view = "webview/user/test" . $this->getTopicView($test['part_id']);
 
         $params = [];
         $params['test'] = $test;
