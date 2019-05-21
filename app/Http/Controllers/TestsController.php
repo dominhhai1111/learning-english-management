@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\TestQuestion;
 use Illuminate\Http\Request;
 use App\Tests;
 use App\Topics;
@@ -15,6 +16,7 @@ class TestsController extends Controller
         $this->tests = new Tests();
         $this->topics = new Topics();
         $this->questions = new Questions();
+        $this->testQuestion = new TestQuestion();
 
         $this->myconf = config("myconf");
     }
@@ -60,8 +62,8 @@ class TestsController extends Controller
         if ($request->method() == "POST") {
             $params = $request->all();
 
-            $questions = !empty($params['questions']) ? $params['questions'] : [];
-            $questions = json_encode($questions);
+            $questionsQuery = !empty($params['questions']) ? $params['questions'] : [];
+            $questions = json_encode($questionsQuery);
             $name = $request->input('name');
             $file = $request->file('image');
             $folder = 'resources/tests';
@@ -77,6 +79,7 @@ class TestsController extends Controller
 
             if (!empty($updatedData)) {
                 $result = $this->tests->where('id', $id)->update($updatedData);
+                $this->updateTestQuestion($id, $questionsQuery);
             }
 
             if ($result) {
@@ -157,5 +160,25 @@ class TestsController extends Controller
 
         return $formatQuestions;
     }
+    
+    private function updateTestQuestion($testId, $updateQuestions) {
+        $oldQuestions = $this->testQuestion->where(['test_id' => $testId])->get();
+        $oldQuestions = !empty($oldQuestions) ? array_column($oldQuestions->toArray(), 'question_id') : [];
 
+        $newQuestions = array_diff($updateQuestions, $oldQuestions);
+        $removeQuestions = array_diff($oldQuestions, $updateQuestions);
+
+        $newData = [];
+        foreach ($newQuestions as $question) {
+            $data = [];
+            $data['test_id'] = $testId;
+            $data['question_Id'] = $question;
+            $data['created_at'] = now();
+            $data['updated_at'] = now();
+            $newData[] = $data;
+        }
+
+        $savedUserTest = $this->testQuestion->insert($newData);
+        $this->testQuestion->whereIn('id', $removeQuestions)->delete();
+    }
 }
